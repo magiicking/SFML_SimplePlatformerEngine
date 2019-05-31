@@ -33,6 +33,18 @@
     <ClCompile Include="pugixml.cpp">
       <Filter>Исходные файлы\pugixml</Filter>
     </ClCompile>
+    <ClCompile Include="MagicGrid.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="MagicGameObject.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="MagicGridColumn.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="MagicGridCell.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
@@ -46,6 +58,18 @@
     </ClInclude>
     <ClInclude Include="pugiconfig.hpp">
       <Filter>Файлы заголовков\pugixml</Filter>
+    </ClInclude>
+    <ClInclude Include="MagicGrid.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="MagicGameObject.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="MagicGridColumn.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="MagicGridCell.h">
+      <Filter>Файлы заголовков</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

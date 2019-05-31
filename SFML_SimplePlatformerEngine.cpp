@@ -1,16 +1,19 @@
 ﻿// SFML_SimplePlatformerEngine.cpp : Этот файл содержит функцию "main". Здесь начинается и заканчивается выполнение программы.
 //
 #include "pch.h"
-#include <iostream>
+#include "MagicGrid.h"
 
 
 int main()
 {
 	std::cout << "Hello World!\n";
 
+	unique_ptr<MagicGrid> grid = make_unique<MagicGrid>(500, 250);
+
 	sf::RenderWindow window(sf::VideoMode(200, 200), "SFML works!");
 	sf::CircleShape shape(100.f);
 	shape.setFillColor(sf::Color::Green);
+	window.setFramerateLimit(60);
 
 	while (window.isOpen())
 	{
@@ -26,6 +29,7 @@ int main()
 					}
 				case sf::Event::Resized:
 					{
+						
 						break;
 					}
 				default:
