@@ -10,6 +10,6 @@ class MagicGridColumn
 {
 public:
 	MagicGridColumn(size_t height);
-	map<size_t, unique_ptr<MagicGridCell>> cells;
+	vector<unique_ptr<MagicGridCell>> cells;
 };
 

@@ -11,7 +11,7 @@ using namespace concurrency;
 class MagicGrid
 {
 private:
-	map<size_t, unique_ptr<MagicGridColumn>> grid;
+	vector<unique_ptr<MagicGridColumn>> grid;
 public:
 	MagicGrid(const size_t width, const size_t height);
 };
