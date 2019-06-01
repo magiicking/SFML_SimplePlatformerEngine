@@ -40,7 +40,7 @@ public:
 	/// \param height     Количество ячеек в колонке.
 	///
 	////////////////////////////////////////////////////////////
-	MagicGridColumn(size_t height);
+	MagicGridColumn(const size_t height);
 
 	////////////////////////////////////////////////////////////
 	/// \brief Получает список неподвижных объектов.
@@ -51,7 +51,7 @@ public:
 	/// \param y     y-координата ячейки
 	///
 	////////////////////////////////////////////////////////////
-	concurrent_unordered_set<MagicGameObject*>* const GetCellStaticObjectsSet(size_t y) const;
+	concurrent_unordered_set<MagicGameObject*>* const GetCellStaticObjectsSet(const size_t y) const;
 
 	////////////////////////////////////////////////////////////
 	/// \brief Получает список подвижных объектов.
@@ -62,6 +62,9 @@ public:
     /// \param y     y-координата ячейки
 	///
 	////////////////////////////////////////////////////////////
-	concurrent_unordered_set<MagicGameObject*>* const GetCellDynamicObjectsSet(size_t y) const;
+	concurrent_unordered_set<MagicGameObject*>* const GetCellDynamicObjectsSet(const size_t y) const;
+
+	//TODO: comment
+	bool AddStaticObject(const size_t y, const MagicGameObject* const object);
 };
 

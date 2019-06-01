@@ -13,6 +13,7 @@
 ////////////////////////////////////////////////////////////
 class MagicGameObject
 {
+	sf::FloatRect objectRect;
 public:
 
 	////////////////////////////////////////////////////////////
@@ -24,6 +25,7 @@ public:
 	/// \param Параметр     Заполнить параметры.
 	///
 	////////////////////////////////////////////////////////////
-	MagicGameObject();
+	MagicGameObject(const sf::FloatRect _objectRect);
+	sf::FloatRect GetRect() const;
 };
 

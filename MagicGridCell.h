@@ -75,5 +75,7 @@ public:
 	///
 	////////////////////////////////////////////////////////////
 	concurrent_unordered_set<MagicGameObject*>* const GetDynamicObjectsSet() const;
+
+	bool AddStaticObject(const MagicGameObject* const object);
 };
 

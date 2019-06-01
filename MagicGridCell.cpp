@@ -17,3 +17,10 @@ concurrent_unordered_set<MagicGameObject*>* const MagicGridCell::GetDynamicObjec
 {
 	return dynamic_objects.get();
 }
+
+bool MagicGridCell::AddStaticObject(const MagicGameObject* const object)
+{
+	static_objects->insert(object);
+	return false;
+	//return static_objects->insert(object).second;
+}

@@ -8,7 +8,7 @@ int main()
 {
 	std::cout << "Hello World!\n";
 
-	unique_ptr<MagicGrid> grid = make_unique<MagicGrid>(500, 250);
+	unique_ptr<MagicGrid> grid = make_unique<MagicGrid>(500, 250, 30.0f);
 
 	sf::RenderWindow window(sf::VideoMode(200, 200), "SFML works!");
 	sf::CircleShape shape(100.f);
