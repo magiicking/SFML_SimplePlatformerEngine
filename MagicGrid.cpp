@@ -14,7 +14,7 @@ MagicGrid::MagicGrid(const size_t width, const size_t height, const float _cellS
 	}
 }
 
-concurrent_unordered_set<MagicGameObject*, utilites::PointerHash<MagicGameObject>, utilites::PointerComparator<MagicGameObject>>* const MagicGrid::GetCellStaticObjectsSet(const size_t x, const size_t y) const
+concurrent_unordered_set<MagicGameObject* const, utilites::PointerHash<MagicGameObject>, utilites::PointerComparator<MagicGameObject>>* const MagicGrid::GetCellStaticObjectsSet(const size_t x, const size_t y) const
 {
 	return grid[x]->GetCellStaticObjectsSet(y);
 }
@@ -24,7 +24,7 @@ concurrent_unordered_set<MagicGameObject*>* const MagicGrid::GetCellDynamicObjec
 	return grid[x]->GetCellDynamicObjectsSet(y);
 }
 
-bool MagicGrid::AddStaticObject(MagicGameObject* object)
+bool MagicGrid::AddStaticObject(MagicGameObject* const object)
 {
 	const sf::FloatRect objRect = object->GetRect();
 	const size_t leftX = (size_t)floorf(objRect.left / cellSize);

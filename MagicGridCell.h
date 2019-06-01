@@ -30,7 +30,7 @@ private:
 	/// \param Параметр     Заполнить параметры.
 	///
 	////////////////////////////////////////////////////////////
-	unique_ptr<concurrent_unordered_set<MagicGameObject*,utilites::PointerHash<MagicGameObject>,utilites::PointerComparator<MagicGameObject>>> static_objects;
+	unique_ptr<concurrent_unordered_set<MagicGameObject* const,utilites::PointerHash<MagicGameObject>,utilites::PointerComparator<MagicGameObject>>> static_objects;
 
 	////////////////////////////////////////////////////////////
 	/// \brief Заполнить описание.
@@ -64,7 +64,7 @@ public:
 	/// \param Параметр     Заполнить параметры.
 	///
 	////////////////////////////////////////////////////////////
-	concurrent_unordered_set<MagicGameObject*, utilites::PointerHash<MagicGameObject>, utilites::PointerComparator<MagicGameObject>>* const GetStaticObjectsSet() const;
+	concurrent_unordered_set<MagicGameObject* const, utilites::PointerHash<MagicGameObject>, utilites::PointerComparator<MagicGameObject>>* const GetStaticObjectsSet() const;
 
 	////////////////////////////////////////////////////////////
 	/// \brief Заполнить описание.
@@ -77,6 +77,6 @@ public:
 	////////////////////////////////////////////////////////////
 	concurrent_unordered_set<MagicGameObject*>* const GetDynamicObjectsSet() const;
 
-	bool AddStaticObject(MagicGameObject* object);
+	bool AddStaticObject(MagicGameObject* const object);
 };
 
