@@ -9,7 +9,7 @@ MagicGridColumn::MagicGridColumn(const size_t height)
 	}
 }
 
-concurrent_unordered_set<MagicGameObject* const, utilites::PointerHash<MagicGameObject>, utilites::PointerComparator<MagicGameObject>>* const MagicGridColumn::GetCellStaticObjectsSet(const size_t y) const
+concurrent_unordered_set<MagicGameObject*, utilites::PointerHash<MagicGameObject>, utilites::PointerComparator<MagicGameObject>>* const MagicGridColumn::GetCellStaticObjectsSet(const size_t y) const
 {
 	return cells[y]->GetStaticObjectsSet();
 }
@@ -19,7 +19,7 @@ concurrent_unordered_set<MagicGameObject*>* const MagicGridColumn::GetCellDynami
 	return cells[y]->GetDynamicObjectsSet();
 }
 
-bool MagicGridColumn::AddStaticObject(const size_t y, MagicGameObject* const object)
+bool MagicGridColumn::AddStaticObject(const size_t y, MagicGameObject* object)
 {
 	return cells[y]->AddStaticObject(object);
 }

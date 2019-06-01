@@ -52,7 +52,7 @@ public:
 	/// \param y     y-координата ячейки
 	///
 	////////////////////////////////////////////////////////////
-	concurrent_unordered_set<MagicGameObject* const, utilites::PointerHash<MagicGameObject>, utilites::PointerComparator<MagicGameObject>>* const GetCellStaticObjectsSet(const size_t y) const;
+	concurrent_unordered_set<MagicGameObject*, utilites::PointerHash<MagicGameObject>, utilites::PointerComparator<MagicGameObject>>* const GetCellStaticObjectsSet(const size_t y) const;
 
 	////////////////////////////////////////////////////////////
 	/// \brief Получает список подвижных объектов.
@@ -66,6 +66,6 @@ public:
 	concurrent_unordered_set<MagicGameObject*>* const GetCellDynamicObjectsSet(const size_t y) const;
 
 	//TODO: comment
-	bool AddStaticObject(const size_t y, MagicGameObject* const object);
+	bool AddStaticObject(const size_t y, MagicGameObject* object);
 };
 

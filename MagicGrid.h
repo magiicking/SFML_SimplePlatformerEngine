@@ -53,7 +53,7 @@ public:
 	/// \param Параметр     Заполнить параметры.
 	///
 	////////////////////////////////////////////////////////////
-	concurrent_unordered_set<MagicGameObject* const, utilites::PointerHash<MagicGameObject>, utilites::PointerComparator<MagicGameObject>>* const GetCellStaticObjectsSet(const size_t x, const size_t y)  const;
+	concurrent_unordered_set<MagicGameObject*, utilites::PointerHash<MagicGameObject>, utilites::PointerComparator<MagicGameObject>>* const GetCellStaticObjectsSet(const size_t x, const size_t y)  const;
 
 	////////////////////////////////////////////////////////////
 	/// \brief Заполнить описание.
@@ -75,6 +75,6 @@ public:
 	/// \param Параметр     Заполнить параметры.
 	///
 	////////////////////////////////////////////////////////////
-	bool AddStaticObject(MagicGameObject* const object);
+	bool AddStaticObject(MagicGameObject* object);
 };
 
