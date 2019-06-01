@@ -7,6 +7,7 @@
 
 using namespace std;
 using namespace concurrency;
+using GameObjectsUnorderedSet = concurrent_unordered_set<MagicGameObject*, utilites::PointerHash<MagicGameObject>, utilites::PointerComparator<MagicGameObject>>;
 
 ////////////////////////////////////////////////////////////
 /// \brief Заполнить описание.
@@ -77,6 +78,26 @@ public:
 	////////////////////////////////////////////////////////////
 	concurrent_unordered_set<MagicGameObject*>* const GetDynamicObjectsSet() const;
 
+	////////////////////////////////////////////////////////////
+	/// \brief Заполнить описание.
+	///
+	/// 
+	/// 
+	/// 
+	/// \param Параметр     Заполнить параметры.
+	///
+	////////////////////////////////////////////////////////////
 	bool AddStaticObject(MagicGameObject* object);
+
+	////////////////////////////////////////////////////////////
+	/// \brief Заполнить описание.
+	///
+	/// 
+	/// 
+	/// 
+	/// \param Параметр     Заполнить параметры.
+	///
+	////////////////////////////////////////////////////////////
+	bool HasStaticObjects() const;
 };
 

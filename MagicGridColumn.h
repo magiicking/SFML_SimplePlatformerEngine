@@ -6,6 +6,7 @@
 
 using namespace std;
 using namespace concurrency;
+using GameObjectsUnorderedSet = concurrent_unordered_set<MagicGameObject*, utilites::PointerHash<MagicGameObject>, utilites::PointerComparator<MagicGameObject>>;
 
 ////////////////////////////////////////////////////////////
 /// \brief Заполнить описание.
@@ -18,6 +19,7 @@ using namespace concurrency;
 ////////////////////////////////////////////////////////////
 class MagicGridColumn
 {
+
 private:
 
 	////////////////////////////////////////////////////////////
@@ -65,7 +67,15 @@ public:
 	////////////////////////////////////////////////////////////
 	concurrent_unordered_set<MagicGameObject*>* const GetCellDynamicObjectsSet(const size_t y) const;
 
-	//TODO: comment
+	////////////////////////////////////////////////////////////
+	/// \brief Заполнить описание.
+	///
+	/// 
+	/// 
+	/// 
+	/// \param Параметр     Заполнить параметры.
+	///
+	////////////////////////////////////////////////////////////
 	bool AddStaticObject(const size_t y, MagicGameObject* object);
 };
 

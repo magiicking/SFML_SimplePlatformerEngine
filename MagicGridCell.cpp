@@ -22,3 +22,8 @@ bool MagicGridCell::AddStaticObject(MagicGameObject* object)
 {
 	return static_objects->insert(object).second;
 }
+
+bool MagicGridCell::HasStaticObjects() const
+{
+	return !static_objects->empty();
+}
