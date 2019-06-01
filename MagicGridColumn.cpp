@@ -8,3 +8,13 @@ MagicGridColumn::MagicGridColumn(size_t height)
 		cells.push_back(make_unique<MagicGridCell>());
 	}
 }
+
+concurrent_unordered_set<MagicGameObject*>* const MagicGridColumn::GetCellStaticObjectsSet(size_t y) const
+{
+	return cells[y]->GetStaticObjectsSet();
+}
+
+concurrent_unordered_set<MagicGameObject*>* const MagicGridColumn::GetCellDynamicObjectsSet(size_t y) const
+{
+	return cells[y]->GetDynamicObjectsSet();
+}
