@@ -4,11 +4,11 @@
 
 MagicGridCell::MagicGridCell()
 {
-	static_objects = make_unique <concurrent_unordered_set<MagicGameObject*>>();
+	static_objects = make_unique <concurrent_unordered_set<MagicGameObject*, utilites::PointerHash<MagicGameObject>, utilites::PointerComparator<MagicGameObject>>>();
 	dynamic_objects = make_unique <concurrent_unordered_set<MagicGameObject*>>();
 }
 
-concurrent_unordered_set<MagicGameObject*>* const MagicGridCell::GetStaticObjectsSet() const
+concurrent_unordered_set<MagicGameObject*, utilites::PointerHash<MagicGameObject>, utilites::PointerComparator<MagicGameObject>>* const MagicGridCell::GetStaticObjectsSet() const
 {
 	return static_objects.get();
 }
@@ -18,9 +18,7 @@ concurrent_unordered_set<MagicGameObject*>* const MagicGridCell::GetDynamicObjec
 	return dynamic_objects.get();
 }
 
-bool MagicGridCell::AddStaticObject(const MagicGameObject* const object)
+bool MagicGridCell::AddStaticObject(MagicGameObject* object)
 {
-	static_objects->insert(object);
-	return false;
-	//return static_objects->insert(object).second;
+	return static_objects->insert(object).second;
 }

@@ -31,6 +31,27 @@ public:
 		}
 	};
 
+	template<typename Tval>
+	struct PointerHash 
+	{
+		size_t operator()(const Tval* val) const 
+		{
+			static const size_t shift = (size_t)log2(1 + sizeof(Tval));
+			return (size_t)(val) >> shift;
+		}
+	};
+
+	template<typename Tval>
+	struct PointerComparator
+	{
+		bool operator()(const Tval* obj1, const Tval* obj2) const
+		{
+			if (obj1 == obj2)
+				return true;
+			return false;
+		}
+	};
+
 	////////////////////////////////////////////////////////////
 	/// \brief Заполнить описание.
 	///
