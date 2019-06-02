@@ -221,6 +221,85 @@ bool utilites::GetSegmentsCrossing(const sf::Vector2f* const A, const sf::Vector
 	return false;
 }
 
+bool utilites::GetRayAndViewBorderCrossingPoint(const sf::Vector2f* const A, const sf::Vector2f* const B, const sf::FloatRect* const viewRect, sf::Vector2f* const result)
+{
+	sf::Vector2f direction = *B - *A;
+	direction /= VectorLenght(&direction);
+	if (A->x < viewRect->left || A->x > viewRect->left + viewRect->width
+		|| A->y < viewRect->top || A->y > viewRect->top + viewRect->height)
+	{
+		return false;
+	}
+	float borderX = 0.0f;
+	float borderY = 0.0f;
+	float borderDirectionX = 0.0f;
+	float borderDirectionY = 0.0f;
+	if (NearZero(direction.x) && NearZero(direction.y))
+	{
+		return false;
+	}
+	else if (NearZero(direction.x))
+	{
+		if (direction.y > 0)
+		{
+			borderY = viewRect->top + viewRect->height;
+		}
+		else
+		{
+			borderY = viewRect->top;
+		}
+		result->y = borderY;
+		result->x = A->x;
+		return true;
+	}
+	else if (NearZero(direction.y))
+	{
+		if (direction.x > 0)
+		{
+			borderX = viewRect->left + viewRect->width;
+		}
+		else
+		{
+			borderX = viewRect->left;
+		}
+		result->y = A->y;
+		result->x = borderX;
+		return true;
+	}
+	else
+	{
+		if (direction.x > 0)
+		{
+			borderX = viewRect->left + viewRect->width;
+		}
+		else
+		{
+			borderX = viewRect->left;
+		}
+		borderDirectionX = borderX - A->x;
+		if (direction.y > 0)
+		{
+			borderY = viewRect->top + viewRect->height;
+		}
+		else
+		{
+			borderY = viewRect->top;
+		}
+		borderDirectionY = borderY - A->y;
+
+		result->x = borderX;
+		result->y = borderDirectionX / direction.x * direction.y + A->y;
+		if (result->y < viewRect->top || result->y > viewRect->top + viewRect->height)
+		{
+			result->y = borderY;
+			result->x = borderDirectionY / direction.y * direction.x + A->x;
+		}
+
+		return true;
+	}
+	return false;
+}
+
 vector<utilites::RasterizedCell> utilites::RasterizeSegment(const sf::Vector2f* const A, const sf::Vector2f* const B, const sf::Vector2f* const gridOriginPoint, const float gridCellSize)
 {
 	vector<utilites::RasterizedCell> result;

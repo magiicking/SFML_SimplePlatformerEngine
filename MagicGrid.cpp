@@ -19,7 +19,7 @@ concurrent_unordered_set<MagicGameObject*, utilites::PointerHash<MagicGameObject
 	return grid[x]->GetCellStaticObjectsSet(y);
 }
 
-concurrent_unordered_set<MagicGameObject*>* const MagicGrid::GetCellDynamicObjectsSet(const size_t x, const size_t y) const
+concurrent_unordered_set<MagicGameObject*, utilites::PointerHash<MagicGameObject>, utilites::PointerComparator<MagicGameObject>>* const MagicGrid::GetCellDynamicObjectsSet(const size_t x, const size_t y) const
 {
 	return grid[x]->GetCellDynamicObjectsSet(y);
 }

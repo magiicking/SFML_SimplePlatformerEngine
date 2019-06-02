@@ -7,7 +7,7 @@ class MagicGameObject;
 
 using namespace std;
 using namespace concurrency;
-using GameObjectsUnorderedSet = concurrent_unordered_set<MagicGameObject*, utilites::PointerHash<MagicGameObject>, utilites::PointerComparator<MagicGameObject>>;
+
 
 ////////////////////////////////////////////////////////////
 /// \brief Класс сетки.
@@ -58,34 +58,36 @@ public:
 	MagicGrid(const size_t width, const size_t height, const float _cellSize);
 
 	////////////////////////////////////////////////////////////
-	/// \brief Заполнить описание.
+	/// \brief Возвращает сет статичных объектов из определенной ячейки.
 	///
 	/// 
 	/// 
 	/// 
-	/// \param Параметр     Заполнить параметры.
+	/// \param x     х-координата ячейки.
+	/// \param y     у-координата ячейки.
 	///
 	////////////////////////////////////////////////////////////
 	concurrent_unordered_set<MagicGameObject*, utilites::PointerHash<MagicGameObject>, utilites::PointerComparator<MagicGameObject>>* const GetCellStaticObjectsSet(const size_t x, const size_t y)  const;
 
 	////////////////////////////////////////////////////////////
-	/// \brief Заполнить описание.
+	/// \brief Возвращает сет подвижных объектов из определенной ячейки.
 	///
 	/// 
 	/// 
 	/// 
-	/// \param Параметр     Заполнить параметры.
+	/// \param x     х-координата ячейки.
+	/// \param y     у-координата ячейки.
 	///
 	////////////////////////////////////////////////////////////
-	concurrent_unordered_set<MagicGameObject*>* const GetCellDynamicObjectsSet(const size_t x, const size_t y)  const;
+	concurrent_unordered_set<MagicGameObject*, utilites::PointerHash<MagicGameObject>, utilites::PointerComparator<MagicGameObject>>* const GetCellDynamicObjectsSet(const size_t x, const size_t y)  const;
 
 	////////////////////////////////////////////////////////////
-	/// \brief Заполнить описание.
+	/// \brief Добавляет статичный объект в сетку.
 	///
+	/// Объект помещается в те ячейки, которые пересекаются
+	/// с границами объекта.
 	/// 
-	/// 
-	/// 
-	/// \param Параметр     Заполнить параметры.
+	/// \param object     Указатель на объект.
 	///
 	////////////////////////////////////////////////////////////
 	bool AddStaticObject(MagicGameObject* object);

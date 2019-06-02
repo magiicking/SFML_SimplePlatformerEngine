@@ -7,15 +7,15 @@
 
 using namespace std;
 using namespace concurrency;
-using GameObjectsUnorderedSet = concurrent_unordered_set<MagicGameObject*, utilites::PointerHash<MagicGameObject>, utilites::PointerComparator<MagicGameObject>>;
+
 
 ////////////////////////////////////////////////////////////
-/// \brief Заполнить описание.
+/// \brief Ячейка сетки столкновений.
 ///
 /// 
 /// 
 /// 
-/// \param Параметр     Заполнить параметры.
+/// 
 ///
 ////////////////////////////////////////////////////////////
 class MagicGridCell
@@ -23,63 +23,63 @@ class MagicGridCell
 private:
 
 	////////////////////////////////////////////////////////////
-	/// \brief Заполнить описание.
+	/// \brief Уникальный указатель на сет неподвижных объектов.
 	///
 	/// 
 	/// 
 	/// 
-	/// \param Параметр     Заполнить параметры.
+	/// 
 	///
 	////////////////////////////////////////////////////////////
 	unique_ptr<concurrent_unordered_set<MagicGameObject*,utilites::PointerHash<MagicGameObject>,utilites::PointerComparator<MagicGameObject>>> static_objects;
 
 	////////////////////////////////////////////////////////////
-	/// \brief Заполнить описание.
+	/// \brief Уникальный указатель на сет подвижных объектов.
 	///
 	/// 
 	/// 
 	/// 
-	/// \param Параметр     Заполнить параметры.
+	/// 
 	///
 	////////////////////////////////////////////////////////////
-	unique_ptr<concurrent_unordered_set<MagicGameObject*>> dynamic_objects;
+	unique_ptr<concurrent_unordered_set<MagicGameObject*, utilites::PointerHash<MagicGameObject>, utilites::PointerComparator<MagicGameObject>>> dynamic_objects;
 
 public:
 	////////////////////////////////////////////////////////////
-	/// \brief Заполнить описание.
+	/// \brief Конструктор по умолчанию.
 	///
+	/// Создает сеты объектов.
 	/// 
 	/// 
 	/// 
-	/// \param Параметр     Заполнить параметры.
 	///
 	////////////////////////////////////////////////////////////
 	MagicGridCell();
 
 	////////////////////////////////////////////////////////////
-	/// \brief Заполнить описание.
+	/// \brief Возвращает указатель на сет неподвижных объектов.
 	///
 	/// 
 	/// 
 	/// 
-	/// \param Параметр     Заполнить параметры.
+	/// 
 	///
 	////////////////////////////////////////////////////////////
 	concurrent_unordered_set<MagicGameObject*, utilites::PointerHash<MagicGameObject>, utilites::PointerComparator<MagicGameObject>>* const GetStaticObjectsSet() const;
 
 	////////////////////////////////////////////////////////////
-	/// \brief Заполнить описание.
+	/// \brief Возвращает указатель на сет подвижных объектов.
 	///
 	/// 
 	/// 
 	/// 
-	/// \param Параметр     Заполнить параметры.
+	/// 
 	///
 	////////////////////////////////////////////////////////////
-	concurrent_unordered_set<MagicGameObject*>* const GetDynamicObjectsSet() const;
+	concurrent_unordered_set<MagicGameObject*, utilites::PointerHash<MagicGameObject>, utilites::PointerComparator<MagicGameObject>>* const GetDynamicObjectsSet() const;
 
 	////////////////////////////////////////////////////////////
-	/// \brief Заполнить описание.
+	/// \brief Добавляет статический объект.
 	///
 	/// 
 	/// 
@@ -90,7 +90,7 @@ public:
 	bool AddStaticObject(MagicGameObject* object);
 
 	////////////////////////////////////////////////////////////
-	/// \brief Заполнить описание.
+	/// \brief Добавляет подвижный объект.
 	///
 	/// 
 	/// 
@@ -98,6 +98,28 @@ public:
 	/// \param Параметр     Заполнить параметры.
 	///
 	////////////////////////////////////////////////////////////
+	bool AddDynamicObject(MagicGameObject* object);
+
+	////////////////////////////////////////////////////////////
+	/// \brief Проверяет наличие статических объектов.
+	///
+	/// 
+	/// 
+	/// 
+	/// 
+	///
+	////////////////////////////////////////////////////////////
 	bool HasStaticObjects() const;
+
+	////////////////////////////////////////////////////////////
+	/// \brief Проверяет наличие подвижных объектов.
+	///
+	/// 
+	/// 
+	/// 
+	/// 
+	///
+	////////////////////////////////////////////////////////////
+	bool HasDynamicObjects() const;
 };
 

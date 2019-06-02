@@ -6,29 +6,30 @@
 
 using namespace std;
 using namespace concurrency;
-using GameObjectsUnorderedSet = concurrent_unordered_set<MagicGameObject*, utilites::PointerHash<MagicGameObject>, utilites::PointerComparator<MagicGameObject>>;
+
 
 ////////////////////////////////////////////////////////////
-/// \brief Заполнить описание.
+/// \brief Колонка сетки.
 ///
+/// Хранит в себе ячейки сетки столкновений.
 /// 
 /// 
 /// 
-/// \param Параметр     Заполнить параметры.
 ///
 ////////////////////////////////////////////////////////////
 class MagicGridColumn
 {
 
+
 private:
 
 	////////////////////////////////////////////////////////////
-	/// \brief Заполнить описание.
+	/// \brief Вектор уникальных указателей на ячейки.
 	///
 	/// 
 	/// 
 	/// 
-	/// \param Параметр     Заполнить параметры.
+	/// 
 	///
 	////////////////////////////////////////////////////////////
 	vector<unique_ptr<MagicGridCell>> cells;
@@ -46,7 +47,7 @@ public:
 	MagicGridColumn(const size_t height);
 
 	////////////////////////////////////////////////////////////
-	/// \brief Получает список неподвижных объектов.
+	/// \brief Получает сет неподвижных объектов.
 	///
 	/// Неподвижные объекты хранятся в отдельном сете,
 	/// чтобы не задумываться об обновлении их положения.
@@ -57,7 +58,7 @@ public:
 	concurrent_unordered_set<MagicGameObject*, utilites::PointerHash<MagicGameObject>, utilites::PointerComparator<MagicGameObject>>* const GetCellStaticObjectsSet(const size_t y) const;
 
 	////////////////////////////////////////////////////////////
-	/// \brief Получает список подвижных объектов.
+	/// \brief Получает сет подвижных объектов.
 	///
 	/// Подвижные объекты хранятся в отдельном сете,
 	/// чтобы в каждом кадре обновлять ячейку их расположения.
@@ -65,15 +66,16 @@ public:
     /// \param y     y-координата ячейки
 	///
 	////////////////////////////////////////////////////////////
-	concurrent_unordered_set<MagicGameObject*>* const GetCellDynamicObjectsSet(const size_t y) const;
+	concurrent_unordered_set<MagicGameObject*, utilites::PointerHash<MagicGameObject>, utilites::PointerComparator<MagicGameObject>>* const GetCellDynamicObjectsSet(const size_t y) const;
 
 	////////////////////////////////////////////////////////////
-	/// \brief Заполнить описание.
+	/// \brief Добавляет в ячейку статический объект.
 	///
 	/// 
 	/// 
 	/// 
-	/// \param Параметр     Заполнить параметры.
+	/// \param y     y-координата ячейки.
+	/// \param object     Указатель на добавляемый объект.
 	///
 	////////////////////////////////////////////////////////////
 	bool AddStaticObject(const size_t y, MagicGameObject* object);
