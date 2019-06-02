@@ -188,7 +188,7 @@ public:
 	/// \param result     Вектор-результат. Точка пересечения, либо бесконечность, либо NAN.
 	///
 	////////////////////////////////////////////////////////////
-	static bool GetLinesCrossing(const sf::Vector3f* const line1, const sf::Vector3f* const line2, sf::Vector2f* const result);
+	static bool GetLinesIntersection(const sf::Vector3f* const line1, const sf::Vector3f* const line2, sf::Vector2f* const result);
 
 	////////////////////////////////////////////////////////////
 	/// \brief Проверяет равенство числа с плавающей запятой с нулем.

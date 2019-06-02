@@ -28,7 +28,7 @@ bool utilites::GetLineByPoints(const sf::Vector2f* const A, const sf::Vector2f* 
 	return true;
 }
 
-bool utilites::GetLinesCrossing(const sf::Vector3f* const line1, const sf::Vector3f* const line2, sf::Vector2f* const result)
+bool utilites::GetLinesIntersection(const sf::Vector3f* const line1, const sf::Vector3f* const line2, sf::Vector2f* const result)
 {
 	float a1 = line1->x;
 	float b1 = line1->y;
@@ -161,7 +161,7 @@ bool utilites::GetSegmentsCrossing(const sf::Vector2f* const A, const sf::Vector
 	unique_ptr<sf::Vector3f> line2 = make_unique<sf::Vector3f>();
 	if (GetLineByPoints(A_temp, B_temp, line1.get()) && GetLineByPoints(C_temp, D_temp, line2.get()))
 	{
-		if (GetLinesCrossing(line1.get(), line2.get(), out))
+		if (GetLinesIntersection(line1.get(), line2.get(), out))
 		{
 			if (!isfinite(out->x))
 			{

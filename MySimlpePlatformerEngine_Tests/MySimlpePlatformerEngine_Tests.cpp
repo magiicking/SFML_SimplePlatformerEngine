@@ -149,28 +149,28 @@ namespace MySimlpePlatformerEngineTests
 			Assert::IsFalse(utilites::GetLineByPoints(&A, &A, &result));
 		}
 
-		TEST_METHOD(GetLinesCrossing)
+		TEST_METHOD(GetLinesIntersection)
 		{
 			sf::Vector3f line1 = sf::Vector3f(-2.0f, 2.0f, 0.0f);
 			sf::Vector3f line2 = sf::Vector3f(2.0f, 2.0f, -4.0f);
 			sf::Vector3f line3 = sf::Vector3f(2.0f, 2.0f, -5.0f);
 			sf::Vector2f result = sf::Vector2f();
 
-			Assert::IsTrue(utilites::GetLinesCrossing(&line1, &line2, &result));
+			Assert::IsTrue(utilites::GetLinesIntersection(&line1, &line2, &result));
 			Assert::AreEqual(1.0f, result.x);
 			Assert::AreEqual(1.0f, result.y);
 
 
-			Assert::IsTrue(utilites::GetLinesCrossing(&line1, &line3, &result));
+			Assert::IsTrue(utilites::GetLinesIntersection(&line1, &line3, &result));
 			Assert::AreEqual(1.25f, result.x);
 			Assert::AreEqual(1.25f, result.y);
 
 
-			Assert::IsFalse(utilites::GetLinesCrossing(&line3, &line2, &result));
+			Assert::IsFalse(utilites::GetLinesIntersection(&line3, &line2, &result));
 			Assert::IsTrue(isnan(result.x));
 			Assert::IsTrue(isnan(result.y));
 
-			Assert::IsTrue(utilites::GetLinesCrossing(&line1, &line1, &result));
+			Assert::IsTrue(utilites::GetLinesIntersection(&line1, &line1, &result));
 			Assert::IsTrue(isinf(result.x));
 			Assert::IsTrue(isinf(result.y));
 		}
