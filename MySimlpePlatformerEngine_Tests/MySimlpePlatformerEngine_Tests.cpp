@@ -17,7 +17,7 @@ namespace MySimlpePlatformerEngineTests
 		}
 	};
 
-	TEST_CLASS(MySimlpePlatformerEngineTests_utilites)
+	TEST_CLASS(utilites_test)
 	{
 	public:
 
@@ -201,6 +201,62 @@ namespace MySimlpePlatformerEngineTests
 			Assert::AreEqual(sqrtf(2.0f), utilites::VectorLenght(&A));
 			Assert::AreEqual(sqrtf(50.0f), utilites::VectorLenght(&B));
 			Assert::AreEqual(sqrtf(8.0f), utilites::VectorLenght(&C));
+		}
+
+		TEST_METHOD(GetTriangleCenter)
+		{
+			sf::Vector2f A = sf::Vector2f(1.0f, 3.0f);
+			sf::Vector2f B = sf::Vector2f(2.0f, 1.0f);
+			sf::Vector2f C = sf::Vector2f(3.0f, 2.0f);
+			sf::Vector2f center = sf::Vector2f();
+			utilites::GetTriangleCenter(&A, &B, &C, &center);
+			Assert::AreEqual(2.0f, center.x);
+			Assert::AreEqual(2.0f, center.y);
+		}
+
+		TEST_METHOD(GetNormal)
+		{
+			sf::Vector2f A = sf::Vector2f(1.0f, 3.0f);
+			sf::Vector2f B = sf::Vector2f(2.0f, 1.0f);
+			sf::Vector2f center = sf::Vector2f(2.0f, 2.0f);
+			sf::Vector2f normal = sf::Vector2f();
+			utilites::GetNormal(&A, &B, &center, &normal);
+
+			Assert::AreEqual(-2.0f / sqrtf(5.0f), normal.x);
+			Assert::AreEqual(-1.0f / sqrtf(5.0f), normal.y);
+
+			center = sf::Vector2f(-2.0f, -2.0f);
+			utilites::GetNormal(&A, &B, &center, &normal);
+
+			Assert::AreEqual(2.0f / sqrtf(5.0f), normal.x);
+			Assert::AreEqual(1.0f / sqrtf(5.0f), normal.y);
+		}
+
+		TEST_METHOD(RasterizeSegment)
+		{
+
+		}
+
+		TEST_METHOD(GetSegmentsCrossing)
+		{
+			sf::Vector2f A = sf::Vector2f(0.0f, 0.0f);
+			sf::Vector2f B = sf::Vector2f(3.0f, 3.0f);
+			sf::Vector2f C = sf::Vector2f(3.0f, -1.0f);
+			sf::Vector2f D = sf::Vector2f(0.0f, 2.0f);
+			sf::Vector2f result = sf::Vector2f();
+
+			Assert::IsTrue(utilites::GetSegmentsCrossing(&A, &B, &C, &D, &result));
+			Assert::AreEqual(1.0f, result.x);
+			Assert::AreEqual(1.0f, result.y);
+
+			A = sf::Vector2f(1.0f, 1.0f);
+			Assert::IsTrue(utilites::GetSegmentsCrossing(&A, &B, &C, &D, &result));
+			Assert::AreEqual(1.0f, result.x);
+			Assert::AreEqual(1.0f, result.y);
+
+			A = sf::Vector2f(1.01f, 1.01f);
+			Assert::IsFalse(utilites::GetSegmentsCrossing(&A, &B, &C, &D, &result));
+			
 		}
 	};
 }
