@@ -223,22 +223,24 @@ bool utilites::GetSegmentsCrossing(const sf::Vector2f* const A, const sf::Vector
 
 bool utilites::GetRayAndViewBorderCrossingPoint(const sf::Vector2f* const A, const sf::Vector2f* const B, const sf::FloatRect* const viewRect, sf::Vector2f* const result)
 {
-	sf::Vector2f direction = *B - *A;
-	direction /= VectorLenght(&direction);
+	if (NearZero(A->x-B->x) && NearZero(A->y - B->y))
+	{
+		return false;
+	}
 	if (A->x < viewRect->left || A->x > viewRect->left + viewRect->width
 		|| A->y < viewRect->top || A->y > viewRect->top + viewRect->height)
 	{
 		return false;
 	}
+	sf::Vector2f direction = *B - *A;
+	direction /= VectorLenght(&direction);
+	
 	float borderX = 0.0f;
 	float borderY = 0.0f;
 	float borderDirectionX = 0.0f;
 	float borderDirectionY = 0.0f;
-	if (NearZero(direction.x) && NearZero(direction.y))
-	{
-		return false;
-	}
-	else if (NearZero(direction.x))
+	
+	if (NearZero(direction.x))
 	{
 		if (direction.y > 0)
 		{
