@@ -69,15 +69,18 @@ bool utilites::GetLinesCrossing(const sf::Vector3f* const line1, const sf::Vecto
 			}
 			if (NearZero(a1 - a2) && NearZero(b1 - b2) && NearZero(c1 - c2))
 			{
-				result->x = std::numeric_limits<float>::quiet_NaN();
-				result->y = std::numeric_limits<float>::quiet_NaN();
-				return false;
-			}
-			else
-			{
+				//same line
 				result->x = std::numeric_limits<float>::infinity();
 				result->y = std::numeric_limits<float>::infinity();
 				return true;
+				
+			}
+			else
+			{
+				//parallel lines
+				result->x = std::numeric_limits<float>::quiet_NaN();
+				result->y = std::numeric_limits<float>::quiet_NaN();
+				return false;
 			}
 
 		}
