@@ -18,7 +18,14 @@ class utilites
 {
 public:
 
-	
+	enum class CohenSutherlandCode : uint8_t
+	{
+		Inside = 0b0000,
+		Left = 0b0001,
+		Right = 0b0010,
+		Bottom = 0b0100,
+		Top = 0b1000
+	};
 
 	////////////////////////////////////////////////////////////
 	/// \brief Растеризованная ячейка.
@@ -291,5 +298,27 @@ public:
 	///
 	////////////////////////////////////////////////////////////
 	static bool GetRayAndViewBorderIntersectionPoint(const sf::Vector2f* const A, const sf::Vector2f* const B, const sf::FloatRect* const viewRect, sf::Vector2f* const result);
+
+	////////////////////////////////////////////////////////////
+	/// \brief Заполнить описание.
+	///
+	/// 
+	/// 
+	/// 
+	/// \param Параметр     Заполнить параметры.
+	///
+	////////////////////////////////////////////////////////////
+	static bool GetRayAndRectCollisionPoint(const sf::Vector2f* const A, const sf::Vector2f* const B, const sf::FloatRect* const viewRect, sf::Vector2f* const result);
+
+	////////////////////////////////////////////////////////////
+	/// \brief Заполнить описание.
+	///
+	/// 
+	/// 
+	/// 
+	/// \param Параметр     Заполнить параметры.
+	///
+	////////////////////////////////////////////////////////////
+	static uint8_t GetPointCodeCohenSutherland(const sf::Vector2f* const point, const sf::FloatRect* const rect);
 };
 

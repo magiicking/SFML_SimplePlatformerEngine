@@ -273,5 +273,29 @@ namespace MySimlpePlatformerEngineTests
 			Assert::IsFalse(utilites::GetSegmentsIntersection(&A, &B, &C, &D, &result));
 			
 		}
+
+		TEST_METHOD(GetPointCodeCohenSutherland)
+		{
+			sf::FloatRect rect = sf::FloatRect(10.0f, 10.0f, 20.0f, 20.0f);
+			sf::Vector2f Left = sf::Vector2f(0.0f, 15.0f);
+			sf::Vector2f Right = sf::Vector2f(31.0f, 15.0f);
+			sf::Vector2f Top = sf::Vector2f(15.0f, 31.0f);
+			sf::Vector2f Bottom = sf::Vector2f(15.0f, 0.0f);
+			sf::Vector2f LeftTop = sf::Vector2f(0.0f, 31.0f);
+			sf::Vector2f LeftBottom = sf::Vector2f(0.0f, 0.0f);
+			sf::Vector2f RightTop = sf::Vector2f(31.0f, 31.0f);
+			sf::Vector2f RightBottom = sf::Vector2f(31.0f, 0.0f);
+			sf::Vector2f Inside = sf::Vector2f(15.0f, 15.0f);
+
+			Assert::AreEqual(0b0000, (int)utilites::GetPointCodeCohenSutherland(&Inside, &rect));
+			Assert::AreEqual(0b0001, (int)utilites::GetPointCodeCohenSutherland(&Left, &rect));
+			Assert::AreEqual(0b0010, (int)utilites::GetPointCodeCohenSutherland(&Right, &rect));
+			Assert::AreEqual(0b0100, (int)utilites::GetPointCodeCohenSutherland(&Bottom, &rect));
+			Assert::AreEqual(0b1000, (int)utilites::GetPointCodeCohenSutherland(&Top, &rect));
+			Assert::AreEqual(0b1001, (int)utilites::GetPointCodeCohenSutherland(&LeftTop, &rect));
+			Assert::AreEqual(0b0101, (int)utilites::GetPointCodeCohenSutherland(&LeftBottom, &rect));
+			Assert::AreEqual(0b1010, (int)utilites::GetPointCodeCohenSutherland(&RightTop, &rect));
+			Assert::AreEqual(0b0110, (int)utilites::GetPointCodeCohenSutherland(&RightBottom, &rect));
+		}
 	};
 }

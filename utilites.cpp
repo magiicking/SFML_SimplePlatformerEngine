@@ -313,6 +313,103 @@ bool utilites::GetRayAndViewBorderIntersectionPoint(const sf::Vector2f* const A,
 	return false;
 }
 
+bool utilites::GetRayAndRectCollisionPoint(const sf::Vector2f* const A, const sf::Vector2f* const B, const sf::FloatRect* const rect, sf::Vector2f* const result)
+{
+	uint8_t code_a = GetPointCodeCohenSutherland(A,rect);
+	uint8_t code_b = GetPointCodeCohenSutherland(B, rect);
+	//Начало луча снаружи. Пока еще неизвестно, есть ли пересечение
+	if (code_a)
+	{
+		//Обе точки с одной стороны от прямоугольника, пересечения точно нет.
+		if (code_a & code_b)
+		{
+			return false;
+		}
+		//Точки с разных сторон прямоугольника. Есть смысл заняться проверкой.
+		switch (code_a)
+		{
+			//Источник луча слева от прямоугольника. Достаточно проверить левую грань.
+			case (uint8_t)CohenSutherlandCode::Left:
+				{
+					break;
+				}
+			//Источник луча справа от прямоугольника. Достаточно проверить правую грань.
+			case (uint8_t)CohenSutherlandCode::Right:
+				{
+					break;
+				}
+			//Источник луча снизу от прямоугольника. Достаточно проверить нижнюю грань.
+			case (uint8_t)CohenSutherlandCode::Bottom:
+				{
+					break;
+				}
+			//Источник луча сверху от прямоугольника. Достаточно проверить верхнюю грань.
+			case (uint8_t)CohenSutherlandCode::Top:
+				{
+					break;
+				}
+			//Источник луча слева-снизу от прямоугольника. Достаточно проверить левую и нижнюю грани.
+			case (uint8_t)CohenSutherlandCode::Left | (uint8_t)CohenSutherlandCode::Bottom:
+				{
+					break;
+				}
+			//Источник луча слева-сверху от прямоугольника. Достаточно проверить левую и верхнюю грани.
+			case (uint8_t)CohenSutherlandCode::Left | (uint8_t)CohenSutherlandCode::Top:
+				{
+					break;
+				}
+			//Источник луча справа-снизу от прямоугольника. Достаточно проверить правую и нижнюю грани.
+			case (uint8_t)CohenSutherlandCode::Right | (uint8_t)CohenSutherlandCode::Bottom:
+				{
+					break;
+				}
+			//Источник луча справа-сверху от прямоугольника. Достаточно проверить правую и верхнюю грани.
+			case (uint8_t)CohenSutherlandCode::Right | (uint8_t)CohenSutherlandCode::Top:
+				{
+					break;
+				}
+			//Что-то пошло не так.
+			default:
+				{
+					//Что-то пошло не так
+					break;
+				}
+		}
+	}
+	//Обе точки внутри
+	else
+	{
+		//Пока я это проигнорирую. Зачем мне кастовать луч из ящика?
+	}
+	return false;
+}
+
+uint8_t utilites::GetPointCodeCohenSutherland(const sf::Vector2f* const point, const sf::FloatRect* const viewRect)
+{
+	int result = 0;
+	//left
+	if (point->x < viewRect->left)
+	{
+		result |= (uint8_t)CohenSutherlandCode::Left;
+	}
+	//right
+	if (point->x > viewRect->left + viewRect->width)
+	{
+		result |= (uint8_t)CohenSutherlandCode::Right;
+	}
+	//bottom
+	if (point->y < viewRect->top)
+	{
+		result |= (uint8_t)CohenSutherlandCode::Bottom;
+	}
+	//top
+	if (point->y > viewRect->top + viewRect->height)
+	{
+		result |= (uint8_t)CohenSutherlandCode::Top;
+	}
+	return result;
+}
+
 vector<utilites::RasterizedCell> utilites::RasterizeSegment(const sf::Vector2f* const A, const sf::Vector2f* const B, const sf::Vector2f* const gridOriginPoint, const float gridCellSize)
 {
 	vector<utilites::RasterizedCell> result;
