@@ -21,7 +21,7 @@ namespace MySimlpePlatformerEngineTests
 	{
 	public:
 
-		TEST_METHOD(GetRayAndViewBorderCrossingPoint)
+		TEST_METHOD(GetRayAndViewBorderIntersectionPoint)
 		{
 			sf::FloatRect rect = sf::FloatRect(0.0f, 0.0f, 6.0f, 4.0f);
 			sf::Vector2f startPoint = sf::Vector2f(3.0f, 1.0f);
@@ -40,34 +40,34 @@ namespace MySimlpePlatformerEngineTests
 			sf::Vector2f result6 = sf::Vector2f(3.0f, 4.0f);
 			sf::Vector2f result = sf::Vector2f();
 			bool success = false;
-			success = utilites::GetRayAndViewBorderCrossingPoint(&startPoint, &endPoint1, &rect, &result);
+			success = utilites::GetRayAndViewBorderIntersectionPoint(&startPoint, &endPoint1, &rect, &result);
 			Assert::IsTrue(success);
 			
 			Assert::AreEqual(result1.x, result.x);
 			Assert::AreEqual(result1.y, result.y);
-			success = utilites::GetRayAndViewBorderCrossingPoint(&startPoint, &endPoint2, &rect, &result);
+			success = utilites::GetRayAndViewBorderIntersectionPoint(&startPoint, &endPoint2, &rect, &result);
 			Assert::IsTrue(success);
 			Assert::AreEqual(result2.x, result.x);
 			Assert::AreEqual(result2.y, result.y);
-			success = utilites::GetRayAndViewBorderCrossingPoint(&startPoint, &endPoint3, &rect, &result);
+			success = utilites::GetRayAndViewBorderIntersectionPoint(&startPoint, &endPoint3, &rect, &result);
 			Assert::IsTrue(success);
 			Assert::AreEqual(result3.x, result.x);
 			Assert::AreEqual(result3.y, result.y);
-			success = utilites::GetRayAndViewBorderCrossingPoint(&startPoint, &endPoint4, &rect, &result);
+			success = utilites::GetRayAndViewBorderIntersectionPoint(&startPoint, &endPoint4, &rect, &result);
 			Assert::IsTrue(success);
 			Assert::AreEqual(result4.x, result.x);
 			Assert::AreEqual(result4.y, result.y);
-			success = utilites::GetRayAndViewBorderCrossingPoint(&startPoint, &endPoint5, &rect, &result);
+			success = utilites::GetRayAndViewBorderIntersectionPoint(&startPoint, &endPoint5, &rect, &result);
 			Assert::IsTrue(success);
 			Assert::AreEqual(result5.x, result.x);
 			Assert::AreEqual(result5.y, result.y);
-			success = utilites::GetRayAndViewBorderCrossingPoint(&startPoint, &endPoint6, &rect, &result);
+			success = utilites::GetRayAndViewBorderIntersectionPoint(&startPoint, &endPoint6, &rect, &result);
 			Assert::IsTrue(success);
 			Assert::AreEqual(result6.x, result.x);
 			Assert::AreEqual(result6.y, result.y);
-			success = utilites::GetRayAndViewBorderCrossingPoint(&startPoint2, &endPoint6, &rect, &result);
+			success = utilites::GetRayAndViewBorderIntersectionPoint(&startPoint2, &endPoint6, &rect, &result);
 			Assert::IsFalse(success);
-			success = utilites::GetRayAndViewBorderCrossingPoint(&startPoint, &startPoint, &rect, &result);
+			success = utilites::GetRayAndViewBorderIntersectionPoint(&startPoint, &startPoint, &rect, &result);
 			Assert::IsFalse(success);
 			//Assert::AreEqual(1, 1);
 		}
@@ -149,7 +149,7 @@ namespace MySimlpePlatformerEngineTests
 			Assert::IsFalse(utilites::GetLineByPoints(&A, &A, &result));
 		}
 
-		TEST_METHOD(GetLinesIntersection)
+		TEST_METHOD(GetLinesIntersection1)
 		{
 			sf::Vector3f line1 = sf::Vector3f(-2.0f, 2.0f, 0.0f);
 			sf::Vector3f line2 = sf::Vector3f(2.0f, 2.0f, -4.0f);
@@ -173,6 +173,21 @@ namespace MySimlpePlatformerEngineTests
 			Assert::IsTrue(utilites::GetLinesIntersection(&line1, &line1, &result));
 			Assert::IsTrue(isinf(result.x));
 			Assert::IsTrue(isinf(result.y));
+		}
+
+		TEST_METHOD(GetLinesIntersection2)
+		{
+			sf::Vector2f A = sf::Vector2f(1.0f, 1.0f);
+			sf::Vector2f B = sf::Vector2f(3.0f, 3.0f);
+			sf::Vector2f C = sf::Vector2f(3.0f, -1.0f);
+			sf::Vector2f result = sf::Vector2f();
+
+			Assert::IsTrue(utilites::GetLinesIntersection(&A, &B, &C, &A, &result));
+			Assert::AreEqual(1.0f, result.x);
+			Assert::AreEqual(1.0f, result.y);
+
+			Assert::IsFalse(utilites::GetLinesIntersection(&A, &B, &B, &A, &result));
+			
 		}
 
 		TEST_METHOD(NearZero)
@@ -237,7 +252,7 @@ namespace MySimlpePlatformerEngineTests
 
 		}
 
-		TEST_METHOD(GetSegmentsCrossing)
+		TEST_METHOD(GetSegmentsIntersection)
 		{
 			sf::Vector2f A = sf::Vector2f(0.0f, 0.0f);
 			sf::Vector2f B = sf::Vector2f(3.0f, 3.0f);
@@ -245,17 +260,17 @@ namespace MySimlpePlatformerEngineTests
 			sf::Vector2f D = sf::Vector2f(0.0f, 2.0f);
 			sf::Vector2f result = sf::Vector2f();
 
-			Assert::IsTrue(utilites::GetSegmentsCrossing(&A, &B, &C, &D, &result));
+			Assert::IsTrue(utilites::GetSegmentsIntersection(&A, &B, &C, &D, &result));
 			Assert::AreEqual(1.0f, result.x);
 			Assert::AreEqual(1.0f, result.y);
 
 			A = sf::Vector2f(1.0f, 1.0f);
-			Assert::IsTrue(utilites::GetSegmentsCrossing(&A, &B, &C, &D, &result));
+			Assert::IsTrue(utilites::GetSegmentsIntersection(&A, &B, &C, &D, &result));
 			Assert::AreEqual(1.0f, result.x);
 			Assert::AreEqual(1.0f, result.y);
 
 			A = sf::Vector2f(1.01f, 1.01f);
-			Assert::IsFalse(utilites::GetSegmentsCrossing(&A, &B, &C, &D, &result));
+			Assert::IsFalse(utilites::GetSegmentsIntersection(&A, &B, &C, &D, &result));
 			
 		}
 	};
