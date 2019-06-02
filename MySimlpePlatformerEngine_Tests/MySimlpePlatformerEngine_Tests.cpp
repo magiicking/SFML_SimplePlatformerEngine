@@ -174,5 +174,33 @@ namespace MySimlpePlatformerEngineTests
 			Assert::IsTrue(isinf(result.x));
 			Assert::IsTrue(isinf(result.y));
 		}
+
+		TEST_METHOD(NearZero)
+		{
+			Assert::IsTrue(utilites::NearZero(1.0f - 1.0f));
+			Assert::IsFalse(utilites::NearZero(1.000001f - 1.0f));
+		}
+
+		TEST_METHOD(IsPointOnSegment)
+		{
+			sf::Vector2f A = sf::Vector2f(1.0f, 1.0f);
+			sf::Vector2f B = sf::Vector2f(5.0f, 5.0f);
+			sf::Vector2f C = sf::Vector2f(2.0f, 2.0f);
+			sf::Vector2f D = sf::Vector2f(6.0f, 6.0f);
+			sf::Vector2f E = sf::Vector2f(4.0f, 2.0f);
+			Assert::IsTrue(utilites::IsPointOnSegment(&A, &B, &C));
+			Assert::IsFalse(utilites::IsPointOnSegment(&A, &B, &D));
+			Assert::IsFalse(utilites::IsPointOnSegment(&A, &B, &E));
+		}
+
+		TEST_METHOD(VectorLenght)
+		{
+			sf::Vector2f A = sf::Vector2f(1.0f, 1.0f);
+			sf::Vector2f B = sf::Vector2f(5.0f, 5.0f);
+			sf::Vector2f C = sf::Vector2f(2.0f, 2.0f);
+			Assert::AreEqual(sqrtf(2.0f), utilites::VectorLenght(&A));
+			Assert::AreEqual(sqrtf(50.0f), utilites::VectorLenght(&B));
+			Assert::AreEqual(sqrtf(8.0f), utilites::VectorLenght(&C));
+		}
 	};
 }
