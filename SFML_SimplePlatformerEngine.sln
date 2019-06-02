@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.28922.388
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SFML_SimplePlatformerEngine", "SFML_SimplePlatformerEngine.vcxproj", "{BA009F3A-2FFC-4C41-B4CF-99D6D08B43F2}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MySimlpePlatformerEngine_Tests", "..\SFML_MySimplePlatformerEngine\MySimlpePlatformerEngine_Tests\MySimlpePlatformerEngine_Tests.vcxproj", "{11C73CE4-8BAF-4803-A44D-2976F6065E6F}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MySimlpePlatformerEngine_Tests", "MySimlpePlatformerEngine_Tests\MySimlpePlatformerEngine_Tests.vcxproj", "{11C73CE4-8BAF-4803-A44D-2976F6065E6F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

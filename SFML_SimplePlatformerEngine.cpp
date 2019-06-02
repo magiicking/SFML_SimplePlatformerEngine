@@ -17,27 +17,6 @@ int main()
 	shape.setFillColor(sf::Color::Green);
 	window.setFramerateLimit(60);
 
-	sf::View view = window.getView();
-	//sf::FloatRect rect = sf::FloatRect(view.getCenter().x - view.getSize().x / 2, view.getCenter().y - view.getSize().y / 2, view.getSize().x, view.getSize().y);
-	sf::FloatRect rect = sf::FloatRect(0.0f, 0.0f, 6.0f, 4.0f);
-	sf::Vector2f startPoint = sf::Vector2f(3.0f, 1.0f);
-	sf::Vector2f startPoint2 = sf::Vector2f(300.0f, 1.0f);
-	sf::Vector2f endPoint1 = sf::Vector2f(1.0f, 1.0f);
-	sf::Vector2f endPoint2 = sf::Vector2f(2.5f, 0.5f);
-	sf::Vector2f endPoint3 = sf::Vector2f(4.0f, 0.5f);
-	sf::Vector2f endPoint4 = sf::Vector2f(1.0f, 3.0f);
-	sf::Vector2f endPoint5 = sf::Vector2f(4.5f, 1.5f);
-	sf::Vector2f endPoint6 = sf::Vector2f(3.0f, 2.0f);
-	sf::Vector2f result = sf::Vector2f();
-	utilites::GetRayAndViewBorderCrossingPoint(&startPoint, &endPoint1, &rect, &result);
-	utilites::GetRayAndViewBorderCrossingPoint(&startPoint, &endPoint2, &rect, &result);
-	utilites::GetRayAndViewBorderCrossingPoint(&startPoint, &endPoint3, &rect, &result);
-	utilites::GetRayAndViewBorderCrossingPoint(&startPoint, &endPoint4, &rect, &result);
-	utilites::GetRayAndViewBorderCrossingPoint(&startPoint, &endPoint5, &rect, &result);
-	utilites::GetRayAndViewBorderCrossingPoint(&startPoint, &endPoint6, &rect, &result);
-	utilites::GetRayAndViewBorderCrossingPoint(&startPoint2, &endPoint6, &rect, &result);
-	utilites::GetRayAndViewBorderCrossingPoint(&startPoint, &startPoint, &rect, &result);
-
 	while (window.isOpen())
 	{
 		sf::Event event;
