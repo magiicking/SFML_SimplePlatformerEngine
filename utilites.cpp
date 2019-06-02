@@ -171,69 +171,63 @@ bool utilites::GetSegmentsIntersection(const sf::Vector2f* const A, const sf::Ve
 		D_temp = C_temp;
 		C_temp = temp_temp;
 	}
-	unique_ptr<sf::Vector3f> line1 = make_unique<sf::Vector3f>();
-	unique_ptr<sf::Vector3f> line2 = make_unique<sf::Vector3f>();
-	if (GetLineByPoints(A_temp, B_temp, line1.get()) && GetLineByPoints(C_temp, D_temp, line2.get()))
+	
+	if (GetLinesIntersection(A_temp, B_temp, C_temp, D_temp, out))
 	{
-		if (GetLinesIntersection(line1.get(), line2.get(), out))
+		return IsPointOnSegment(A_temp, B_temp, out) && IsPointOnSegment(C_temp, D_temp, out);
+	}
+	else
+	{
+		if (IsPointOnSegment(A_temp, B_temp, C_temp))
 		{
-			if (!isfinite(out->x))
+			if (IsPointOnSegment(C_temp, D_temp, A_temp))
 			{
-				if (IsPointOnSegment(A_temp, B_temp, C_temp))
-				{
-					if (IsPointOnSegment(C_temp, D_temp, A_temp))
-					{
-						*out = (*A_temp + *C_temp) / 2.0f;
-					}
-					else
-					{
-						*out = (*B_temp + *C_temp) / 2.0f;
-					}
-					return true;
-				}
-				else if (IsPointOnSegment(A_temp, B_temp, D_temp))
-				{
-					if (IsPointOnSegment(C_temp, D_temp, A_temp))
-					{
-						*out = (*A_temp + *D_temp) / 2.0f;
-					}
-					else
-					{
-						*out = (*B_temp + *D_temp) / 2.0f;
-					}
-					return true;
-				}
-				else if (IsPointOnSegment(C_temp, D_temp, A_temp))
-				{
-					if (IsPointOnSegment(A_temp, B_temp, C_temp))
-					{
-						*out = (*C_temp + *A_temp) / 2.0f;
-					}
-					else
-					{
-						*out = (*D_temp + *A_temp) / 2.0f;
-					}
-					return true;
-				}
-				else if (IsPointOnSegment(C_temp, D_temp, B_temp))
-				{
-					if (IsPointOnSegment(A_temp, B_temp, C_temp))
-					{
-						*out = (*C_temp + *B_temp) / 2.0f;
-					}
-					else
-					{
-						*out = (*D_temp + *B_temp) / 2.0f;
-					}
-					return true;
-				}
+				*out = (*A_temp + *C_temp) / 2.0f;
 			}
 			else
 			{
-				return IsPointOnSegment(A_temp, B_temp, out) && IsPointOnSegment(C_temp, D_temp, out);
+				*out = (*B_temp + *C_temp) / 2.0f;
 			}
+			return true;
+		}
+		else if (IsPointOnSegment(A_temp, B_temp, D_temp))
+		{
+			if (IsPointOnSegment(C_temp, D_temp, A_temp))
+			{
+				*out = (*A_temp + *D_temp) / 2.0f;
+			}
+			else
+			{
+				*out = (*B_temp + *D_temp) / 2.0f;
+			}
+			return true;
+		}
+		else if (IsPointOnSegment(C_temp, D_temp, A_temp))
+		{
+			if (IsPointOnSegment(A_temp, B_temp, C_temp))
+			{
+				*out = (*C_temp + *A_temp) / 2.0f;
+			}
+			else
+			{
+				*out = (*D_temp + *A_temp) / 2.0f;
+			}
+			return true;
+		}
+		else if (IsPointOnSegment(C_temp, D_temp, B_temp))
+		{
+			if (IsPointOnSegment(A_temp, B_temp, C_temp))
+			{
+				*out = (*C_temp + *B_temp) / 2.0f;
+			}
+			else
+			{
+				*out = (*D_temp + *B_temp) / 2.0f;
+			}
+			return true;
 		}
 	}
+	
 
 	return false;
 }
