@@ -34,6 +34,14 @@ void MagicGameObject::SetPosition(sf::Vector2f newPosition)
 	{
 		m_vertices[i].position += difference;
 	}
+	topLeft->x += difference.x;
+	topLeft->y += difference.y;
+	topRight->x += difference.x;
+	topRight->y += difference.y;
+	bottomLeft->x += difference.x;
+	bottomLeft->y += difference.y;
+	bottomRight->x += difference.x;
+	bottomRight->y += difference.y;
 }
 
 void MagicGameObject::Tick(float deltaTime)
