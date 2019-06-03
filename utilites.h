@@ -308,7 +308,7 @@ public:
 	/// \param Параметр     Заполнить параметры.
 	///
 	////////////////////////////////////////////////////////////
-	static bool GetRayAndRectCollisionPoint(const sf::Vector2f* const A, const sf::Vector2f* const B, const sf::FloatRect* const viewRect, sf::Vector2f* const result);
+	static bool GetRayAndRectCollisionPoint(const sf::Vector2f* const A, const sf::Vector2f* const B, const sf::FloatRect* const viewRect, sf::Vector2f* const result, bool* const onEdge);
 
 	////////////////////////////////////////////////////////////
 	/// \brief Заполнить описание.
@@ -320,5 +320,16 @@ public:
 	///
 	////////////////////////////////////////////////////////////
 	static uint8_t GetPointCodeCohenSutherland(const sf::Vector2f* const point, const sf::FloatRect* const rect);
+
+	////////////////////////////////////////////////////////////
+	/// \brief Заполнить описание.
+	///
+	/// 
+	/// 
+	/// 
+	/// \param Параметр     Заполнить параметры.
+	///
+	////////////////////////////////////////////////////////////
+	static bool VectorsAreEqual(const sf::Vector2f* const A, const sf::Vector2f* const B);
 };
 

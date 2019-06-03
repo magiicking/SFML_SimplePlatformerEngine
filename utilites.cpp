@@ -313,17 +313,22 @@ bool utilites::GetRayAndViewBorderIntersectionPoint(const sf::Vector2f* const A,
 	return false;
 }
 
-bool utilites::GetRayAndRectCollisionPoint(const sf::Vector2f* const A, const sf::Vector2f* const B, const sf::FloatRect* const rect, sf::Vector2f* const result)
+bool utilites::GetRayAndRectCollisionPoint(const sf::Vector2f* const A, const sf::Vector2f* const B, const sf::FloatRect* const rect, sf::Vector2f* const result, bool* const onEdge)
 {
 	uint8_t code_a = GetPointCodeCohenSutherland(A,rect);
 	uint8_t code_b = GetPointCodeCohenSutherland(B, rect);
+	sf::Vector2f rectBottomLeftPoint = sf::Vector2f(rect->left, rect->top);
+	sf::Vector2f rectBottomRightPoint = sf::Vector2f(rect->left + rect->width, rect->top);
+	sf::Vector2f rectTopLeftPoint = sf::Vector2f(rect->left, rect->top + rect->height);
+	sf::Vector2f rectTopRightPoint = sf::Vector2f(rect->left + rect->width, rect->top + rect->height);
+	bool booleResult = false;
 	//Начало луча снаружи. Пока еще неизвестно, есть ли пересечение
 	if (code_a)
 	{
 		//Обе точки с одной стороны от прямоугольника, пересечения точно нет.
 		if (code_a & code_b)
 		{
-			return false;
+			return booleResult;
 		}
 		//Точки с разных сторон прямоугольника. Есть смысл заняться проверкой.
 		switch (code_a)
@@ -331,41 +336,89 @@ bool utilites::GetRayAndRectCollisionPoint(const sf::Vector2f* const A, const sf
 			//Источник луча слева от прямоугольника. Достаточно проверить левую грань.
 			case (uint8_t)CohenSutherlandCode::Left:
 				{
+					booleResult = GetSegmentsIntersection(A, B, &rectBottomLeftPoint, &rectTopLeftPoint, result);
+					*onEdge = !VectorsAreEqual(&rectBottomLeftPoint, result) && !VectorsAreEqual(&rectTopLeftPoint, result);
 					break;
 				}
 			//Источник луча справа от прямоугольника. Достаточно проверить правую грань.
 			case (uint8_t)CohenSutherlandCode::Right:
 				{
+					booleResult = GetSegmentsIntersection(A, B, &rectBottomRightPoint, &rectTopRightPoint, result);
+					*onEdge = !VectorsAreEqual(&rectBottomRightPoint, result) && !VectorsAreEqual(&rectTopRightPoint, result);
 					break;
 				}
 			//Источник луча снизу от прямоугольника. Достаточно проверить нижнюю грань.
 			case (uint8_t)CohenSutherlandCode::Bottom:
 				{
+					booleResult = GetSegmentsIntersection(A, B, &rectBottomLeftPoint, &rectBottomRightPoint, result);
+					*onEdge = !VectorsAreEqual(&rectBottomLeftPoint, result) && !VectorsAreEqual(&rectBottomRightPoint, result);
 					break;
 				}
 			//Источник луча сверху от прямоугольника. Достаточно проверить верхнюю грань.
 			case (uint8_t)CohenSutherlandCode::Top:
 				{
+					booleResult = GetSegmentsIntersection(A, B, &rectTopRightPoint, &rectTopLeftPoint, result);
+					*onEdge = !VectorsAreEqual(&rectTopRightPoint, result) && !VectorsAreEqual(&rectTopLeftPoint, result);
 					break;
 				}
 			//Источник луча слева-снизу от прямоугольника. Достаточно проверить левую и нижнюю грани.
 			case (uint8_t)CohenSutherlandCode::Left | (uint8_t)CohenSutherlandCode::Bottom:
 				{
+					if (GetSegmentsIntersection(A, B, &rectBottomLeftPoint, &rectTopLeftPoint, result))
+					{
+						booleResult = true;
+						*onEdge = !VectorsAreEqual(&rectBottomLeftPoint, result) && !VectorsAreEqual(&rectTopLeftPoint, result);
+					}
+					else
+					{
+						booleResult = GetSegmentsIntersection(A, B, &rectBottomLeftPoint, &rectBottomRightPoint, result);
+						*onEdge = !VectorsAreEqual(&rectBottomLeftPoint, result) && !VectorsAreEqual(&rectBottomRightPoint, result);
+					}
 					break;
 				}
 			//Источник луча слева-сверху от прямоугольника. Достаточно проверить левую и верхнюю грани.
 			case (uint8_t)CohenSutherlandCode::Left | (uint8_t)CohenSutherlandCode::Top:
 				{
+					if (GetSegmentsIntersection(A, B, &rectBottomLeftPoint, &rectTopLeftPoint, result))
+					{
+						booleResult = true;
+						*onEdge = !VectorsAreEqual(&rectBottomLeftPoint, result) && !VectorsAreEqual(&rectTopLeftPoint, result);
+					}
+					else
+					{
+						booleResult = GetSegmentsIntersection(A, B, &rectTopRightPoint, &rectTopLeftPoint, result);
+						*onEdge = !VectorsAreEqual(&rectTopRightPoint, result) && !VectorsAreEqual(&rectTopLeftPoint, result);
+					}
 					break;
 				}
 			//Источник луча справа-снизу от прямоугольника. Достаточно проверить правую и нижнюю грани.
 			case (uint8_t)CohenSutherlandCode::Right | (uint8_t)CohenSutherlandCode::Bottom:
 				{
+					if (GetSegmentsIntersection(A, B, &rectBottomRightPoint, &rectTopRightPoint, result))
+					{
+						booleResult = true;
+						*onEdge = !VectorsAreEqual(&rectBottomRightPoint, result) && !VectorsAreEqual(&rectTopRightPoint, result);
+					}
+					else
+					{
+						booleResult = GetSegmentsIntersection(A, B, &rectBottomLeftPoint, &rectBottomRightPoint, result);
+						*onEdge = !VectorsAreEqual(&rectBottomLeftPoint, result) && !VectorsAreEqual(&rectBottomRightPoint, result);
+					}
 					break;
 				}
 			//Источник луча справа-сверху от прямоугольника. Достаточно проверить правую и верхнюю грани.
 			case (uint8_t)CohenSutherlandCode::Right | (uint8_t)CohenSutherlandCode::Top:
 				{
+					if (GetSegmentsIntersection(A, B, &rectBottomRightPoint, &rectTopRightPoint, result))
+					{
+						booleResult = true;
+						*onEdge = !VectorsAreEqual(&rectBottomRightPoint, result) && !VectorsAreEqual(&rectTopRightPoint, result);
+					}
+					else
+					{
+						booleResult = GetSegmentsIntersection(A, B, &rectTopRightPoint, &rectTopLeftPoint, result);
+						*onEdge = !VectorsAreEqual(&rectTopRightPoint, result) && !VectorsAreEqual(&rectTopLeftPoint, result);
+					}
 					break;
 				}
 			//Что-то пошло не так.
@@ -381,33 +434,39 @@ bool utilites::GetRayAndRectCollisionPoint(const sf::Vector2f* const A, const sf
 	{
 		//Пока я это проигнорирую. Зачем мне кастовать луч из ящика?
 	}
-	return false;
+	return booleResult;
 }
 
 uint8_t utilites::GetPointCodeCohenSutherland(const sf::Vector2f* const point, const sf::FloatRect* const viewRect)
 {
 	int result = 0;
-	//left
+	//Точка левее
 	if (point->x < viewRect->left)
 	{
 		result |= (uint8_t)CohenSutherlandCode::Left;
 	}
-	//right
+	//Точка правее
 	if (point->x > viewRect->left + viewRect->width)
 	{
 		result |= (uint8_t)CohenSutherlandCode::Right;
 	}
-	//bottom
+	//Точка ниже. Да, это немного сбивает с толку, но раз ось Y идет сверху вниз,
+	//то верхняя точка прямоугольника на самом деле нижняя.
 	if (point->y < viewRect->top)
 	{
 		result |= (uint8_t)CohenSutherlandCode::Bottom;
 	}
-	//top
+	//Точка выше.
 	if (point->y > viewRect->top + viewRect->height)
 	{
 		result |= (uint8_t)CohenSutherlandCode::Top;
 	}
 	return result;
+}
+
+bool utilites::VectorsAreEqual(const sf::Vector2f* const A, const sf::Vector2f* const B)
+{
+	return NearZero(A->x - B->x) && NearZero(A->y - B->y);
 }
 
 vector<utilites::RasterizedCell> utilites::RasterizeSegment(const sf::Vector2f* const A, const sf::Vector2f* const B, const sf::Vector2f* const gridOriginPoint, const float gridCellSize)
