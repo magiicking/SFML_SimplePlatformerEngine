@@ -32,6 +32,10 @@ private:
 	unique_ptr<sf::Vector2f> topRight;
 	unique_ptr<sf::Vector2f> bottomLeft;
 	unique_ptr<sf::Vector2f> bottomRight;
+	bool visionBlocking;
+	bool physicalCollision;
+	bool isTrigger;
+	int zOrder;
 
 	////////////////////////////////////////////////////////////
 	/// \brief Массив вершин для отрисовки.
@@ -126,5 +130,6 @@ public:
 	void Tick(float deltaTime);
 
 	void GetCornersPointers(vector<sf::Vector2f*>* const ret_vector);
+	bool GetVisibilityBlocking();
 };
 

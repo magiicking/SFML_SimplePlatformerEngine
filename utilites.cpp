@@ -1,5 +1,7 @@
 #include "pch.h"
 #include "utilites.h"
+#include "MagicGrid.h"
+#include "MagicGameObject.h"
 
 float utilites::Dot2d(const sf::Vector2f* const vector1, const sf::Vector2f* const vector2)
 {
@@ -467,6 +469,45 @@ uint8_t utilites::GetPointCodeCohenSutherland(const sf::Vector2f* const point, c
 bool utilites::VectorsAreEqual(const sf::Vector2f* const A, const sf::Vector2f* const B)
 {
 	return NearZero(A->x - B->x) && NearZero(A->y - B->y);
+}
+
+void utilites::GetVisibilityBlockingObjectsInRect(const sf::FloatRect* const rect, const MagicGrid* const grid, vector<MagicGameObject*>* objectsVector)
+{
+	const size_t leftX = (size_t)floorf(rect->left / grid->GetCellSize());
+	const size_t leftY = (size_t)floorf(rect->top / grid->GetCellSize());
+	const size_t rightX = (size_t)floorf((rect->left + rect->width) / grid->GetCellSize());
+	const size_t rightY = (size_t)floorf((rect->top + rect->height) / grid->GetCellSize());
+
+	combinable<vector<MagicGameObject*>> combObjectsVector;
+
+	parallel_for<size_t>(leftX, rightX, 1, [grid, &combObjectsVector, leftY, rightY](size_t x)
+		{
+			parallel_for<size_t>(leftY, rightY, 1, [grid, &combObjectsVector, x](size_t y)
+				{
+					concurrent_unordered_set<MagicGameObject*,
+						utilites::PointerHash<MagicGameObject>,
+						utilites::PointerComparator<MagicGameObject>>* set = grid->GetCellDynamicObjectsSet(x, y);
+					concurrent_unordered_set<MagicGameObject*,
+						utilites::PointerHash<MagicGameObject>,
+						utilites::PointerComparator<MagicGameObject>>::iterator it = set->begin();
+					while (it != set->end())
+					{
+						if ((*it)->GetVisibilityBlocking())
+						{
+							combObjectsVector.local().push_back(*it);
+						}
+						it++;
+					}
+				});
+		});
+	combObjectsVector.combine_each([objectsVector](vector<MagicGameObject*> local)
+		{
+			for (auto& obj : local)
+			{
+				objectsVector->push_back(obj);
+			}
+			
+		});
 }
 
 vector<utilites::RasterizedCell> utilites::RasterizeSegment(const sf::Vector2f* const A, const sf::Vector2f* const B, const sf::Vector2f* const gridOriginPoint, const float gridCellSize)

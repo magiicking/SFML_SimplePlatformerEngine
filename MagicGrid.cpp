@@ -41,3 +41,8 @@ bool MagicGrid::AddStaticObject(MagicGameObject* object)
 		});
 	return result;
 }
+
+float MagicGrid::GetCellSize() const
+{
+	return cellSize;
+}

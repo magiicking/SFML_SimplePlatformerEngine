@@ -91,5 +91,7 @@ public:
 	///
 	////////////////////////////////////////////////////////////
 	bool AddStaticObject(MagicGameObject* object);
+
+	float GetCellSize() const;
 };
 

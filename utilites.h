@@ -5,6 +5,9 @@
 using namespace std;
 using namespace concurrency;
 
+class MagicGrid;
+class MagicGameObject;
+
 ////////////////////////////////////////////////////////////
 /// \brief Класс, включающий всякие полезные процедуры и структуры.
 ///
@@ -331,5 +334,16 @@ public:
 	///
 	////////////////////////////////////////////////////////////
 	static bool VectorsAreEqual(const sf::Vector2f* const A, const sf::Vector2f* const B);
+
+	////////////////////////////////////////////////////////////
+	/// \brief Заполнить описание.
+	///
+	/// 
+	/// 
+	/// 
+	/// \param Параметр     Заполнить параметры.
+	///
+	////////////////////////////////////////////////////////////
+	void GetVisibilityBlockingObjectsInRect(const sf::FloatRect* const rect, const MagicGrid* const grid, vector<MagicGameObject*>* objectsVector);
 };
 

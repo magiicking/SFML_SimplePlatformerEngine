@@ -59,3 +59,8 @@ void MagicGameObject::GetCornersPointers(vector<sf::Vector2f*>* const ret_vector
 	ret_vector->push_back(bottomLeft.get());
 	ret_vector->push_back(bottomRight.get());
 }
+
+bool MagicGameObject::GetVisibilityBlocking()
+{
+	return visionBlocking;
+}
