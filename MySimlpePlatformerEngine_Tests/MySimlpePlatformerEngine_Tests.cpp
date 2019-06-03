@@ -297,5 +297,44 @@ namespace MySimlpePlatformerEngineTests
 			Assert::AreEqual(0b1010, (int)utilites::GetPointCodeCohenSutherland(&RightTop, &rect));
 			Assert::AreEqual(0b0110, (int)utilites::GetPointCodeCohenSutherland(&RightBottom, &rect));
 		}
+
+		TEST_METHOD(GetRayAndRectCollisionPoint)
+		{
+			sf::FloatRect rect = sf::FloatRect(0.0f, 0.0f, 6.0f, 4.0f);
+			sf::Vector2f Start = sf::Vector2f(0.5f, -1.0f);
+			sf::Vector2f A = sf::Vector2f(-1.0f, 0.5f);
+			sf::Vector2f B = sf::Vector2f(-0.5f, 1.0f);
+			sf::Vector2f C = sf::Vector2f(7.5f, -1.0f);
+			sf::Vector2f D = sf::Vector2f(6.0f, 2.0f);
+			sf::Vector2f E = sf::Vector2f(1.5f, 5.0f);
+			
+			sf::Vector2f result = sf::Vector2f();
+			bool blocking = false;
+			bool hasHit = false;
+
+			hasHit = utilites::GetRayAndRectCollisionPoint(&Start, &A, &rect, &result, &blocking);
+			Assert::IsFalse(hasHit);
+
+			hasHit = utilites::GetRayAndRectCollisionPoint(&Start, &B, &rect, &result, &blocking);
+			Assert::IsTrue(hasHit);
+			Assert::IsFalse(blocking);
+			Assert::AreEqual(0.0f, result.x);
+			Assert::AreEqual(0.0f, result.y);
+
+			hasHit = utilites::GetRayAndRectCollisionPoint(&Start, &C, &rect, &result, &blocking);
+			Assert::IsFalse(hasHit);
+
+			hasHit = utilites::GetRayAndRectCollisionPoint(&Start, &D, &rect, &result, &blocking);
+			Assert::IsTrue(hasHit);
+			Assert::IsTrue(blocking);
+			Assert::AreEqual(2.0f + 1.0f/3.0f, result.x);
+			Assert::AreEqual(0.0f, result.y);
+
+			hasHit = utilites::GetRayAndRectCollisionPoint(&Start, &E, &rect, &result, &blocking);
+			Assert::IsTrue(hasHit);
+			Assert::IsTrue(blocking);
+			Assert::AreEqual(2.0f / 3.0f, result.x);
+			Assert::AreEqual(0.0f, result.y);
+		}
 	};
 }

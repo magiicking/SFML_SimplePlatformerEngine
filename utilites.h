@@ -308,7 +308,7 @@ public:
 	/// \param Параметр     Заполнить параметры.
 	///
 	////////////////////////////////////////////////////////////
-	static bool GetRayAndRectCollisionPoint(const sf::Vector2f* const A, const sf::Vector2f* const B, const sf::FloatRect* const viewRect, sf::Vector2f* const result, bool* const onEdge);
+	static bool GetRayAndRectCollisionPoint(const sf::Vector2f* const A, const sf::Vector2f* const B, const sf::FloatRect* const viewRect, sf::Vector2f* const result, bool * const blocking);
 
 	////////////////////////////////////////////////////////////
 	/// \brief Заполнить описание.
