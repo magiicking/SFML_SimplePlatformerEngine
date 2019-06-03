@@ -2,6 +2,8 @@
 
 #include "pch.h"
 
+using namespace std;
+
 ////////////////////////////////////////////////////////////
 /// \brief Игровой объект.
 ///
@@ -25,6 +27,11 @@ private:
 	///
 	////////////////////////////////////////////////////////////
 	sf::FloatRect objectRect;
+
+	unique_ptr<sf::Vector2f> topLeft;
+	unique_ptr<sf::Vector2f> topRight;
+	unique_ptr<sf::Vector2f> bottomLeft;
+	unique_ptr<sf::Vector2f> bottomRight;
 
 	////////////////////////////////////////////////////////////
 	/// \brief Массив вершин для отрисовки.
@@ -117,5 +124,7 @@ public:
 	///
 	////////////////////////////////////////////////////////////
 	void Tick(float deltaTime);
+
+	void GetCornersPointers(vector<sf::Vector2f*>* const ret_vector);
 };
 

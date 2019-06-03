@@ -15,6 +15,9 @@ void MagicGameObject::draw(sf::RenderTarget& target, sf::RenderStates states) co
 MagicGameObject::MagicGameObject(const sf::FloatRect _objectRect)
 {
 	objectRect = _objectRect;
+	ticking = false;
+	m_texture = nullptr;
+	topLeft = make_unique<sf::Vector2f>(objectRect.left, objectRect.top + objectRect.height);
 }
 
 sf::FloatRect MagicGameObject::GetRect() const
@@ -39,4 +42,12 @@ void MagicGameObject::Tick(float deltaTime)
 	{
 
 	}
+}
+
+void MagicGameObject::GetCornersPointers(vector<sf::Vector2f*>* const ret_vector)
+{
+	ret_vector->push_back(topLeft.get());
+	ret_vector->push_back(topRight.get());
+	ret_vector->push_back(bottomLeft.get());
+	ret_vector->push_back(bottomRight.get());
 }
