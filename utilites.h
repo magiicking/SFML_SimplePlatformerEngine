@@ -360,5 +360,14 @@ public:
 	///
 	////////////////////////////////////////////////////////////
 	static void GetPointsInRectForRaycast_HandleGameObject(const MagicGameObject* const gameObject, const sf::Vector2f* const rayStart, concurrent_unordered_set<sf::Vector2f*, utilites::PointerHash<sf::Vector2f>, utilites::PointerComparator<sf::Vector2f>>* const pointsSet);
+
+	////////////////////////////////////////////////////////////
+	/// \brief Проверяет, пересекаются ли два прямоугольника.
+	/// 
+	/// \param rect1     Первый прямоугольник.
+	/// \param rect2     Второй прямоугольник.
+	///
+	////////////////////////////////////////////////////////////
+	static bool RectanglesOverlaping(const sf::FloatRect* const rect1, const sf::FloatRect* const rect2);
 };
 

@@ -36,9 +36,6 @@
     <ClCompile Include="..\MagicGameObject.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="..\SFML_SimplePlatformerEngine.cpp">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
     <ClCompile Include="..\utilites.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
@@ -59,6 +56,9 @@
     </ClCompile>
     <ClCompile Include="..\pch.cpp">
       <Filter>Прекомпилированные заголовки</Filter>
+    </ClCompile>
+    <ClCompile Include="..\SFML_SimplePlatformerEngine.cpp">
+      <Filter>Самый главный файл</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

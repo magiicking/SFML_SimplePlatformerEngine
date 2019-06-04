@@ -640,6 +640,15 @@ void utilites::GetPointsInRectForRaycast_HandleGameObject(const MagicGameObject*
 	}
 }
 
+bool utilites::RectanglesOverlaping(const sf::FloatRect* const rect1, const sf::FloatRect* const rect2)
+{
+	if(rect1->top > rect2->top + rect2->height || rect2->top > rect1->top + rect1->height)
+		return true;
+	if (rect1->left > rect2->left + rect2->width || rect2->left > rect1->left + rect1->width)
+		return true;
+	return false;
+}
+
 vector<utilites::RasterizedCell> utilites::RasterizeSegment(const sf::Vector2f* const A, const sf::Vector2f* const B, const sf::Vector2f* const gridOriginPoint, const float gridCellSize)
 {
 	vector<utilites::RasterizedCell> result;
