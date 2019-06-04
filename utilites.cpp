@@ -475,11 +475,13 @@ void utilites::GetObjectsInRect(const sf::FloatRect* const rect, const MagicGrid
 		utilites::PointerHash<MagicGameObject>,
 		utilites::PointerComparator<MagicGameObject>>*const objectsSet)
 {
+	//Получение области ячеек по углам прямоугольника
 	const size_t leftX = (size_t)floorf(rect->left / grid->GetCellSize());
 	const size_t bottomY = (size_t)floorf(rect->top / grid->GetCellSize());
 	const size_t rightX = (size_t)floorf((rect->left + rect->width) / grid->GetCellSize());
 	const size_t topY = (size_t)floorf((rect->top + rect->height) / grid->GetCellSize());
 
+	//Комбинабельный объект для пихания объектов в несколько потоков
 	combinable<vector<MagicGameObject*>> combObjectsVector;
 
 	parallel_for<size_t>(leftX, rightX, 1, [testFlag, grid, &combObjectsVector, bottomY, topY](size_t x)
@@ -502,6 +504,7 @@ void utilites::GetObjectsInRect(const sf::FloatRect* const rect, const MagicGrid
 					}
 
 					set = grid->GetCellStaticObjectsSet(x, y);
+					it = set->begin();
 					while (it != set->end())
 					{
 						if ((*it)->GetFlags() & (uint16_t)testFlag)
