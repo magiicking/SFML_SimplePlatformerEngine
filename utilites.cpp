@@ -471,18 +471,20 @@ bool utilites::VectorsAreEqual(const sf::Vector2f* const A, const sf::Vector2f* 
 	return NearZero(A->x - B->x) && NearZero(A->y - B->y);
 }
 
-void utilites::GetVisibilityBlockingObjectsInRect(const sf::FloatRect* const rect, const MagicGrid* const grid, vector<MagicGameObject*>* objectsVector)
+void utilites::GetObjectsInRect(const sf::FloatRect* const rect, const MagicGrid* const grid, ObjectTypeFlags testFlag, unordered_set<MagicGameObject*,
+		utilites::PointerHash<MagicGameObject>,
+		utilites::PointerComparator<MagicGameObject>>*const objectsSet)
 {
 	const size_t leftX = (size_t)floorf(rect->left / grid->GetCellSize());
-	const size_t leftY = (size_t)floorf(rect->top / grid->GetCellSize());
+	const size_t bottomY = (size_t)floorf(rect->top / grid->GetCellSize());
 	const size_t rightX = (size_t)floorf((rect->left + rect->width) / grid->GetCellSize());
-	const size_t rightY = (size_t)floorf((rect->top + rect->height) / grid->GetCellSize());
+	const size_t topY = (size_t)floorf((rect->top + rect->height) / grid->GetCellSize());
 
 	combinable<vector<MagicGameObject*>> combObjectsVector;
 
-	parallel_for<size_t>(leftX, rightX, 1, [grid, &combObjectsVector, leftY, rightY](size_t x)
+	parallel_for<size_t>(leftX, rightX, 1, [testFlag, grid, &combObjectsVector, bottomY, topY](size_t x)
 		{
-			parallel_for<size_t>(leftY, rightY, 1, [grid, &combObjectsVector, x](size_t y)
+			parallel_for<size_t>(bottomY, topY, 1, [testFlag, grid, &combObjectsVector, x](size_t y)
 				{
 					concurrent_unordered_set<MagicGameObject*,
 						utilites::PointerHash<MagicGameObject>,
@@ -492,19 +494,30 @@ void utilites::GetVisibilityBlockingObjectsInRect(const sf::FloatRect* const rec
 						utilites::PointerComparator<MagicGameObject>>::iterator it = set->begin();
 					while (it != set->end())
 					{
-						if ((*it)->GetVisibilityBlocking())
+						if ((*it)->GetFlags() & (uint16_t)testFlag)
 						{
 							combObjectsVector.local().push_back(*it);
 						}
-						it++;
+						auto it_result = it++;
+					}
+
+					set = grid->GetCellStaticObjectsSet(x, y);
+					while (it != set->end())
+					{
+						if ((*it)->GetFlags() & (uint16_t)testFlag)
+						{
+							combObjectsVector.local().push_back(*it);
+						}
+						auto it_result = it++;
 					}
 				});
 		});
-	combObjectsVector.combine_each([objectsVector](vector<MagicGameObject*> local)
+	combObjectsVector.combine_each([objectsSet](vector<MagicGameObject*> local)
 		{
 			for (auto& obj : local)
 			{
-				objectsVector->push_back(obj);
+				objectsSet->insert(obj);
+				//objectsVector->push_back(obj);
 			}
 			
 		});

@@ -4,6 +4,14 @@
 
 using namespace std;
 
+enum class ObjectTypeFlags : uint16_t
+{
+	MustBeRendered = 1 << 0,
+	VisibilityBlocking = 1 << 1,
+	PhysicCollision = 1 << 2,
+	Trigger = 1 << 3
+};
+
 ////////////////////////////////////////////////////////////
 /// \brief Игровой объект.
 ///
@@ -16,6 +24,10 @@ using namespace std;
 ////////////////////////////////////////////////////////////
 class MagicGameObject : public sf::Drawable
 {
+public:
+
+	
+
 private:
 	////////////////////////////////////////////////////////////
 	/// \brief Прямоугольник объекта.
@@ -32,9 +44,7 @@ private:
 	unique_ptr<sf::Vector2f> topRight;
 	unique_ptr<sf::Vector2f> bottomLeft;
 	unique_ptr<sf::Vector2f> bottomRight;
-	bool visionBlocking;
-	bool physicalCollision;
-	bool isTrigger;
+	uint16_t flags;
 	int zOrder;
 
 	////////////////////////////////////////////////////////////
@@ -73,6 +83,8 @@ private:
 	
 
 public:
+
+	
 
 	////////////////////////////////////////////////////////////
 	/// \brief Тиканье.
@@ -130,6 +142,6 @@ public:
 	void Tick(float deltaTime);
 
 	void GetCornersPointers(vector<sf::Vector2f*>* const ret_vector);
-	bool GetVisibilityBlocking();
+	uint16_t GetFlags();
 };
 

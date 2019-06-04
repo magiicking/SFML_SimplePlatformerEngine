@@ -7,6 +7,7 @@ using namespace concurrency;
 
 class MagicGrid;
 class MagicGameObject;
+enum class ObjectTypeFlags : uint16_t;
 
 ////////////////////////////////////////////////////////////
 /// \brief Класс, включающий всякие полезные процедуры и структуры.
@@ -344,6 +345,8 @@ public:
 	/// \param Параметр     Заполнить параметры.
 	///
 	////////////////////////////////////////////////////////////
-	void GetVisibilityBlockingObjectsInRect(const sf::FloatRect* const rect, const MagicGrid* const grid, vector<MagicGameObject*>* objectsVector);
+	void GetObjectsInRect(const sf::FloatRect* const rect, const MagicGrid* const grid, ObjectTypeFlags testFlag, unordered_set<MagicGameObject*,
+		utilites::PointerHash<MagicGameObject>,
+		utilites::PointerComparator<MagicGameObject>>* const objectsSet);
 };
 

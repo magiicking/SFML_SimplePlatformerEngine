@@ -28,13 +28,13 @@ bool MagicGrid::AddStaticObject(MagicGameObject* object)
 {
 	const sf::FloatRect objRect = object->GetRect();
 	const size_t leftX = (size_t)floorf(objRect.left / cellSize);
-	const size_t leftY = (size_t)floorf(objRect.top / cellSize);
+	const size_t bottomY = (size_t)floorf(objRect.top / cellSize);
 	const size_t rightX = (size_t)floorf((objRect.left + objRect.width) / cellSize);
-	const size_t rightY = (size_t)floorf((objRect.top + objRect.height) / cellSize);
+	const size_t topY = (size_t)floorf((objRect.top + objRect.height) / cellSize);
 	bool result = false;
-	parallel_for<size_t>(leftX, rightX + 1, 1, [this, object, leftY, rightY, &result](size_t x)
+	parallel_for<size_t>(leftX, rightX + 1, 1, [this, object, bottomY, topY, &result](size_t x)
 		{
-			parallel_for<size_t>(leftY, rightY + 1, 1, [this, x, object, &result](size_t y)
+			parallel_for<size_t>(bottomY, topY + 1, 1, [this, x, object, &result](size_t y)
 				{
 					result |= grid[x]->AddStaticObject(y, object);
 				});
