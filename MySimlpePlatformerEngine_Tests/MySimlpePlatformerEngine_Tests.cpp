@@ -336,6 +336,9 @@ namespace MySimlpePlatformerEngineTests
 			Assert::IsTrue(blocking);
 			Assert::AreEqual(2.0f / 3.0f, result.x);
 			Assert::AreEqual(0.0f, result.y);
+
+			hasHit = utilites::GetRayAndRectCollisionPoint(&Start, &Start, &rect, &result, &blocking);
+			Assert::IsFalse(hasHit);
 		}
 	};
 }

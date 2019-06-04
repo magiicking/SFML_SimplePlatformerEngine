@@ -19,37 +19,46 @@
     <Filter Include="Файлы заголовков\pugixml">
       <UniqueIdentifier>{c3a6d754-a048-4e0e-ad41-f09cbf6df410}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Самый главный файл">
+      <UniqueIdentifier>{a8f02d73-aef1-41a0-8020-75b60d4e5c7b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Прекомпилированные заголовки">
+      <UniqueIdentifier>{48ec1c2d-1ebc-4a86-9e7a-98735e07de63}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Исходные файлы\Сетка">
+      <UniqueIdentifier>{61fb5016-aa50-4a2f-a03e-dfa0408d6150}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Файлы заголовков\Сетка">
+      <UniqueIdentifier>{6b411adc-9ac7-41b0-82d6-e0691983d5d9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="SFML_SimplePlatformerEngine.cpp">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
-    <ClCompile Include="pch.cpp">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
     <ClCompile Include="utilites.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
     <ClCompile Include="pugixml.cpp">
       <Filter>Исходные файлы\pugixml</Filter>
     </ClCompile>
-    <ClCompile Include="MagicGrid.cpp">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
     <ClCompile Include="MagicGameObject.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
+    <ClCompile Include="SFML_SimplePlatformerEngine.cpp">
+      <Filter>Самый главный файл</Filter>
+    </ClCompile>
+    <ClCompile Include="pch.cpp">
+      <Filter>Прекомпилированные заголовки</Filter>
+    </ClCompile>
     <ClCompile Include="MagicGridColumn.cpp">
-      <Filter>Исходные файлы</Filter>
+      <Filter>Исходные файлы\Сетка</Filter>
+    </ClCompile>
+    <ClCompile Include="MagicGrid.cpp">
+      <Filter>Исходные файлы\Сетка</Filter>
     </ClCompile>
     <ClCompile Include="MagicGridCell.cpp">
-      <Filter>Исходные файлы</Filter>
+      <Filter>Исходные файлы\Сетка</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="pch.h">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
     <ClInclude Include="utilites.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
@@ -59,17 +68,20 @@
     <ClInclude Include="pugiconfig.hpp">
       <Filter>Файлы заголовков\pugixml</Filter>
     </ClInclude>
-    <ClInclude Include="MagicGrid.h">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
     <ClInclude Include="MagicGameObject.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
+    <ClInclude Include="pch.h">
+      <Filter>Прекомпилированные заголовки</Filter>
+    </ClInclude>
     <ClInclude Include="MagicGridColumn.h">
-      <Filter>Файлы заголовков</Filter>
+      <Filter>Файлы заголовков\Сетка</Filter>
+    </ClInclude>
+    <ClInclude Include="MagicGrid.h">
+      <Filter>Файлы заголовков\Сетка</Filter>
     </ClInclude>
     <ClInclude Include="MagicGridCell.h">
-      <Filter>Файлы заголовков</Filter>
+      <Filter>Файлы заголовков\Сетка</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

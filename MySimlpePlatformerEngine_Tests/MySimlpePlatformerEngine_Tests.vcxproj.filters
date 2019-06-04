@@ -13,30 +13,27 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Самый главный файл">
+      <UniqueIdentifier>{2f017f85-bef5-407a-9589-692dca095695}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Исходные файлы\Сетка">
+      <UniqueIdentifier>{b2f83eed-60c0-4f88-b0f9-eac70ba7d9cf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Исходные файлы\pugixml">
+      <UniqueIdentifier>{8f1d1129-b2fb-4156-b26c-aaf3a3b6ef97}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Файлы заголовков\pugixml">
+      <UniqueIdentifier>{992b8eed-323f-4611-8eba-9c14ab10d930}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Прекомпилированные заголовки">
+      <UniqueIdentifier>{84d2ee9a-e5b1-4e48-bdd0-5f543c95469d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Файлы заголовков\Сетка">
+      <UniqueIdentifier>{e30bac0e-35a1-4bbd-b3cd-3b362bdfdd08}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="MySimlpePlatformerEngine_Tests.cpp">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
     <ClCompile Include="..\MagicGameObject.cpp">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
-    <ClCompile Include="..\MagicGrid.cpp">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
-    <ClCompile Include="..\MagicGridCell.cpp">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
-    <ClCompile Include="..\MagicGridColumn.cpp">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
-    <ClCompile Include="..\MagicGridRow.cpp">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
-    <ClCompile Include="..\pch.cpp">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
-    <ClCompile Include="..\pugixml.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
     <ClCompile Include="..\SFML_SimplePlatformerEngine.cpp">
@@ -45,31 +42,49 @@
     <ClCompile Include="..\utilites.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
+    <ClCompile Include="MySimlpePlatformerEngine_Tests.cpp">
+      <Filter>Самый главный файл</Filter>
+    </ClCompile>
+    <ClCompile Include="..\MagicGrid.cpp">
+      <Filter>Исходные файлы\Сетка</Filter>
+    </ClCompile>
+    <ClCompile Include="..\MagicGridCell.cpp">
+      <Filter>Исходные файлы\Сетка</Filter>
+    </ClCompile>
+    <ClCompile Include="..\MagicGridColumn.cpp">
+      <Filter>Исходные файлы\Сетка</Filter>
+    </ClCompile>
+    <ClCompile Include="..\pugixml.cpp">
+      <Filter>Исходные файлы\pugixml</Filter>
+    </ClCompile>
+    <ClCompile Include="..\pch.cpp">
+      <Filter>Прекомпилированные заголовки</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\MagicGameObject.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="..\MagicGrid.h">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
-    <ClInclude Include="..\MagicGridCell.h">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
-    <ClInclude Include="..\MagicGridColumn.h">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
-    <ClInclude Include="..\pch.h">
+    <ClInclude Include="..\utilites.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
     <ClInclude Include="..\pugiconfig.hpp">
-      <Filter>Файлы заголовков</Filter>
+      <Filter>Файлы заголовков\pugixml</Filter>
     </ClInclude>
     <ClInclude Include="..\pugixml.hpp">
-      <Filter>Файлы заголовков</Filter>
+      <Filter>Файлы заголовков\pugixml</Filter>
     </ClInclude>
-    <ClInclude Include="..\utilites.h">
-      <Filter>Файлы заголовков</Filter>
+    <ClInclude Include="..\MagicGridColumn.h">
+      <Filter>Файлы заголовков\Сетка</Filter>
+    </ClInclude>
+    <ClInclude Include="..\MagicGrid.h">
+      <Filter>Файлы заголовков\Сетка</Filter>
+    </ClInclude>
+    <ClInclude Include="..\MagicGridCell.h">
+      <Filter>Файлы заголовков\Сетка</Filter>
+    </ClInclude>
+    <ClInclude Include="..\pch.h">
+      <Filter>Прекомпилированные заголовки</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
