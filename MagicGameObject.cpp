@@ -60,7 +60,27 @@ void MagicGameObject::GetCornersPointers(vector<sf::Vector2f*>* const ret_vector
 	ret_vector->push_back(bottomRight.get());
 }
 
-uint16_t MagicGameObject::GetFlags()
+sf::Vector2f* MagicGameObject::GetTopLeftPoint() const
+{
+	return topLeft.get();
+}
+
+sf::Vector2f* MagicGameObject::GetTopRightPoint() const
+{
+	return topRight.get();
+}
+
+sf::Vector2f* MagicGameObject::GetBottomLeftPoint() const
+{
+	return bottomLeft.get();;
+}
+
+sf::Vector2f* MagicGameObject::GetBottomRightPoint() const
+{
+	return bottomRight.get();
+}
+
+uint16_t MagicGameObject::GetFlags() const
 {
 	return flags;
 }

@@ -22,6 +22,15 @@ class utilites
 {
 public:
 
+	////////////////////////////////////////////////////////////
+	/// \brief Заполнить описание.
+	///
+	/// 
+	/// 
+	/// 
+	/// \param Параметр     Заполнить параметры.
+	///
+	////////////////////////////////////////////////////////////
 	enum class CohenSutherlandCode : uint8_t
 	{
 		Inside = 0b0000,
@@ -345,8 +354,32 @@ public:
 	/// \param Параметр     Заполнить параметры.
 	///
 	////////////////////////////////////////////////////////////
-	void GetObjectsInRect(const sf::FloatRect* const rect, const MagicGrid* const grid, ObjectTypeFlags testFlag, unordered_set<MagicGameObject*,
+	static void GetObjectsInRect(const sf::FloatRect* const rect, const MagicGrid* const grid, ObjectTypeFlags testFlag, concurrent_unordered_set<MagicGameObject*,
 		utilites::PointerHash<MagicGameObject>,
 		utilites::PointerComparator<MagicGameObject>>* const objectsSet);
+
+	////////////////////////////////////////////////////////////
+	/// \brief Заполнить описание.
+	///
+	/// 
+	/// 
+	/// 
+	/// \param Параметр     Заполнить параметры.
+	///
+	////////////////////////////////////////////////////////////
+	static void GetPointsInRectForRaycast(const sf::Vector2f* const rayStart, const sf::FloatRect* const rect,
+		const MagicGrid* const grid,
+		ObjectTypeFlags testFlag, concurrent_unordered_set<sf::Vector2f*,utilites::PointerHash<sf::Vector2f>,utilites::PointerComparator<sf::Vector2f>>* const pointsSet);
+
+	////////////////////////////////////////////////////////////
+	/// \brief Заполнить описание.
+	///
+	/// 
+	/// 
+	/// 
+	/// \param Параметр     Заполнить параметры.
+	///
+	////////////////////////////////////////////////////////////
+	static void GetPointsInRectForRaycast_HandleGameObject(const MagicGameObject* const gameObject, const sf::Vector2f* const rayStart, concurrent_unordered_set<sf::Vector2f*, utilites::PointerHash<sf::Vector2f>, utilites::PointerComparator<sf::Vector2f>>* const pointsSet);
 };
 

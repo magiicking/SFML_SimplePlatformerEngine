@@ -471,7 +471,7 @@ bool utilites::VectorsAreEqual(const sf::Vector2f* const A, const sf::Vector2f* 
 	return NearZero(A->x - B->x) && NearZero(A->y - B->y);
 }
 
-void utilites::GetObjectsInRect(const sf::FloatRect* const rect, const MagicGrid* const grid, ObjectTypeFlags testFlag, unordered_set<MagicGameObject*,
+void utilites::GetObjectsInRect(const sf::FloatRect* const rect, const MagicGrid* const grid, ObjectTypeFlags testFlag, concurrent_unordered_set<MagicGameObject*,
 		utilites::PointerHash<MagicGameObject>,
 		utilites::PointerComparator<MagicGameObject>>*const objectsSet)
 {
@@ -484,9 +484,9 @@ void utilites::GetObjectsInRect(const sf::FloatRect* const rect, const MagicGrid
 	//Комбинабельный объект для пихания объектов в несколько потоков
 	combinable<vector<MagicGameObject*>> combObjectsVector;
 
-	parallel_for<size_t>(leftX, rightX, 1, [testFlag, grid, &combObjectsVector, bottomY, topY](size_t x)
+	parallel_for<size_t>(leftX, rightX, 1, [testFlag, grid, objectsSet, bottomY, topY](size_t x)
 		{
-			parallel_for<size_t>(bottomY, topY, 1, [testFlag, grid, &combObjectsVector, x](size_t y)
+			parallel_for<size_t>(bottomY, topY, 1, [testFlag, grid, objectsSet, x](size_t y)
 				{
 					concurrent_unordered_set<MagicGameObject*,
 						utilites::PointerHash<MagicGameObject>,
@@ -498,7 +498,7 @@ void utilites::GetObjectsInRect(const sf::FloatRect* const rect, const MagicGrid
 					{
 						if ((*it)->GetFlags() & (uint16_t)testFlag)
 						{
-							combObjectsVector.local().push_back(*it);
+							auto insRes = objectsSet->insert(*it);
 						}
 						auto it_result = it++;
 					}
@@ -509,21 +509,135 @@ void utilites::GetObjectsInRect(const sf::FloatRect* const rect, const MagicGrid
 					{
 						if ((*it)->GetFlags() & (uint16_t)testFlag)
 						{
-							combObjectsVector.local().push_back(*it);
+							auto insRes2 = objectsSet->insert(*it);
 						}
 						auto it_result = it++;
 					}
 				});
 		});
-	combObjectsVector.combine_each([objectsSet](vector<MagicGameObject*> local)
+	
+}
+
+void utilites::GetPointsInRectForRaycast(const sf::Vector2f* const rayStart, const sf::FloatRect* const rect, const MagicGrid* const grid, ObjectTypeFlags testFlag, concurrent_unordered_set<sf::Vector2f*,utilites::PointerHash<sf::Vector2f>,utilites::PointerComparator<sf::Vector2f>>* const pointsSet)
+{
+	//Получение области ячеек по углам прямоугольника
+	const size_t leftX = (size_t)floorf(rect->left / grid->GetCellSize());
+	const size_t bottomY = (size_t)floorf(rect->top / grid->GetCellSize());
+	const size_t rightX = (size_t)floorf((rect->left + rect->width) / grid->GetCellSize());
+	const size_t topY = (size_t)floorf((rect->top + rect->height) / grid->GetCellSize());
+
+	
+
+	parallel_for<size_t>(leftX, rightX, 1, [rayStart, testFlag, grid, pointsSet, bottomY, topY](size_t x)
 		{
-			for (auto& obj : local)
-			{
-				objectsSet->insert(obj);
-				//objectsVector->push_back(obj);
-			}
-			
+			parallel_for<size_t>(bottomY, topY, 1, [rayStart, testFlag, grid, pointsSet, x](size_t y)
+				{
+					concurrent_unordered_set<MagicGameObject*,
+						utilites::PointerHash<MagicGameObject>,
+						utilites::PointerComparator<MagicGameObject>>*set = grid->GetCellDynamicObjectsSet(x, y);
+					concurrent_unordered_set<MagicGameObject*,
+						utilites::PointerHash<MagicGameObject>,
+						utilites::PointerComparator<MagicGameObject>>::iterator it = set->begin();
+					while (it != set->end())
+					{
+						if ((*it)->GetFlags() & (uint16_t)testFlag)
+						{
+							GetPointsInRectForRaycast_HandleGameObject((*it), rayStart, pointsSet);
+						}
+						auto it_result = it++;
+					}
+
+					set = grid->GetCellStaticObjectsSet(x, y);
+					it = set->begin();
+					while (it != set->end())
+					{
+						if ((*it)->GetFlags() & (uint16_t)testFlag)
+						{
+							GetPointsInRectForRaycast_HandleGameObject((*it), rayStart, pointsSet);
+						}
+						auto it_result = it++;
+					}
+				});
 		});
+}
+
+void utilites::GetPointsInRectForRaycast_HandleGameObject(const MagicGameObject* const gameObject, const sf::Vector2f* const rayStart, concurrent_unordered_set<sf::Vector2f*, utilites::PointerHash<sf::Vector2f>, utilites::PointerComparator<sf::Vector2f>>* const pointsSet)
+{
+	sf::FloatRect objRect = gameObject->GetRect();
+	uint16_t code_a = GetPointCodeCohenSutherland(rayStart, &objRect);
+	if (code_a)
+	{
+		//Точки с разных сторон прямоугольника. Есть смысл заняться проверкой.
+		switch (code_a)
+		{
+			//Источник луча слева от прямоугольника. Достаточно проверить левую грань.
+			case (uint8_t)CohenSutherlandCode::Left:
+				{
+					auto res1 = pointsSet->insert(gameObject->GetTopLeftPoint());
+					res1 = pointsSet->insert(gameObject->GetBottomLeftPoint());
+					break;
+				}
+				//Источник луча справа от прямоугольника. Достаточно проверить правую грань.
+			case (uint8_t)CohenSutherlandCode::Right:
+				{
+					auto res1 = pointsSet->insert(gameObject->GetTopRightPoint());
+					res1 = pointsSet->insert(gameObject->GetBottomRightPoint());
+					break;
+				}
+				//Источник луча снизу от прямоугольника. Достаточно проверить нижнюю грань.
+			case (uint8_t)CohenSutherlandCode::Bottom:
+				{
+					auto res1 = pointsSet->insert(gameObject->GetBottomLeftPoint());
+					res1 = pointsSet->insert(gameObject->GetBottomRightPoint());
+					break;
+				}
+				//Источник луча сверху от прямоугольника. Достаточно проверить верхнюю грань.
+			case (uint8_t)CohenSutherlandCode::Top:
+				{
+					auto res1 = pointsSet->insert(gameObject->GetTopLeftPoint());
+					res1 = pointsSet->insert(gameObject->GetTopRightPoint());
+					break;
+				}
+				//Источник луча слева-снизу от прямоугольника. Достаточно проверить левую и нижнюю грани.
+			case (uint8_t)CohenSutherlandCode::Left | (uint8_t)CohenSutherlandCode::Bottom:
+				{
+					auto res1 = pointsSet->insert(gameObject->GetBottomLeftPoint());
+					res1 = pointsSet->insert(gameObject->GetBottomRightPoint());
+					res1 = pointsSet->insert(gameObject->GetTopLeftPoint());
+					break;
+				}
+				//Источник луча слева-сверху от прямоугольника. Достаточно проверить левую и верхнюю грани.
+			case (uint8_t)CohenSutherlandCode::Left | (uint8_t)CohenSutherlandCode::Top:
+				{
+					auto res1 = pointsSet->insert(gameObject->GetBottomLeftPoint());
+					res1 = pointsSet->insert(gameObject->GetTopRightPoint());
+					res1 = pointsSet->insert(gameObject->GetTopLeftPoint());
+					break;
+				}
+				//Источник луча справа-снизу от прямоугольника. Достаточно проверить правую и нижнюю грани.
+			case (uint8_t)CohenSutherlandCode::Right | (uint8_t)CohenSutherlandCode::Bottom:
+				{
+					auto res1 = pointsSet->insert(gameObject->GetBottomLeftPoint());
+					res1 = pointsSet->insert(gameObject->GetBottomRightPoint());
+					res1 = pointsSet->insert(gameObject->GetTopRightPoint());
+					break;
+				}
+				//Источник луча справа-сверху от прямоугольника. Достаточно проверить правую и верхнюю грани.
+			case (uint8_t)CohenSutherlandCode::Right | (uint8_t)CohenSutherlandCode::Top:
+				{
+					auto res1 = pointsSet->insert(gameObject->GetBottomRightPoint());
+					res1 = pointsSet->insert(gameObject->GetTopRightPoint());
+					res1 = pointsSet->insert(gameObject->GetTopLeftPoint());
+					break;
+				}
+				//Что-то пошло не так.
+			default:
+				{
+					//Что-то пошло не так
+					break;
+				}
+		}
+	}
 }
 
 vector<utilites::RasterizedCell> utilites::RasterizeSegment(const sf::Vector2f* const A, const sf::Vector2f* const B, const sf::Vector2f* const gridOriginPoint, const float gridCellSize)
