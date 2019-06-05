@@ -9,7 +9,7 @@ void MagicGameObject::draw(sf::RenderTarget& target, sf::RenderStates states) co
 	// you may also override states.shader or states.blendMode if you want
 
 	// draw the vertex array
-	target.draw(m_vertices, states);
+	target.draw(*m_vertices, states);
 }
 
 MagicGameObject::MagicGameObject(const sf::FloatRect _objectRect)
@@ -17,7 +17,11 @@ MagicGameObject::MagicGameObject(const sf::FloatRect _objectRect)
 	objectRect = _objectRect;
 	ticking = false;
 	m_texture = nullptr;
+	m_vertices = make_unique<sf::VertexArray>();
 	topLeft = make_unique<sf::Vector2f>(objectRect.left, objectRect.top + objectRect.height);
+	topRight = make_unique<sf::Vector2f>(objectRect.left + objectRect.width, objectRect.top + objectRect.height);
+	bottomLeft = make_unique<sf::Vector2f>(objectRect.left, objectRect.top);
+	bottomRight = make_unique<sf::Vector2f>(objectRect.left + objectRect.width, objectRect.top);
 }
 
 sf::FloatRect MagicGameObject::GetRect() const
@@ -30,9 +34,9 @@ void MagicGameObject::SetPosition(sf::Vector2f newPosition)
 	sf::Vector2f difference = newPosition - sf::Vector2f(objectRect.left, objectRect.top);
 	objectRect.left += difference.x;
 	objectRect.top += difference.y;
-	for (size_t i = 0; i < m_vertices.getVertexCount(); i++)
+	for (size_t i = 0; i < m_vertices->getVertexCount(); i++)
 	{
-		m_vertices[i].position += difference;
+		(*m_vertices)[i].position += difference;
 	}
 	topLeft->x += difference.x;
 	topLeft->y += difference.y;
@@ -83,4 +87,14 @@ sf::Vector2f* MagicGameObject::GetBottomRightPoint() const
 uint16_t MagicGameObject::GetFlags() const
 {
 	return flags;
+}
+
+sf::VertexArray* MagicGameObject::GetVertexArray() const
+{
+	return m_vertices.get();
+}
+
+sf::Texture* MagicGameObject::GetTexture() const
+{
+	return m_texture;
 }

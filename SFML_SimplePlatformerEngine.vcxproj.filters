@@ -31,6 +31,12 @@
     <Filter Include="Файлы заголовков\Сетка">
       <UniqueIdentifier>{6b411adc-9ac7-41b0-82d6-e0691983d5d9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Исходные файлы\Игровые объекты">
+      <UniqueIdentifier>{56179473-4c4e-49a2-8fa9-4ac918c70da7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Файлы заголовков\Игровые объекты">
+      <UniqueIdentifier>{ed7685c8-5a95-4eec-b237-e388e199e528}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="utilites.cpp">
@@ -38,9 +44,6 @@
     </ClCompile>
     <ClCompile Include="pugixml.cpp">
       <Filter>Исходные файлы\pugixml</Filter>
-    </ClCompile>
-    <ClCompile Include="MagicGameObject.cpp">
-      <Filter>Исходные файлы</Filter>
     </ClCompile>
     <ClCompile Include="SFML_SimplePlatformerEngine.cpp">
       <Filter>Самый главный файл</Filter>
@@ -57,6 +60,12 @@
     <ClCompile Include="MagicGridCell.cpp">
       <Filter>Исходные файлы\Сетка</Filter>
     </ClCompile>
+    <ClCompile Include="MagicGameObject.cpp">
+      <Filter>Исходные файлы\Игровые объекты</Filter>
+    </ClCompile>
+    <ClCompile Include="MagicAnimatedObject.cpp">
+      <Filter>Исходные файлы\Игровые объекты</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="utilites.h">
@@ -67,9 +76,6 @@
     </ClInclude>
     <ClInclude Include="pugiconfig.hpp">
       <Filter>Файлы заголовков\pugixml</Filter>
-    </ClInclude>
-    <ClInclude Include="MagicGameObject.h">
-      <Filter>Файлы заголовков</Filter>
     </ClInclude>
     <ClInclude Include="pch.h">
       <Filter>Прекомпилированные заголовки</Filter>
@@ -82,6 +88,12 @@
     </ClInclude>
     <ClInclude Include="MagicGridCell.h">
       <Filter>Файлы заголовков\Сетка</Filter>
+    </ClInclude>
+    <ClInclude Include="MagicGameObject.h">
+      <Filter>Файлы заголовков\Игровые объекты</Filter>
+    </ClInclude>
+    <ClInclude Include="MagicAnimatedObject.h">
+      <Filter>Файлы заголовков\Игровые объекты</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

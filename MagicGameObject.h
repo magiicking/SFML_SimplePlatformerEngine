@@ -110,7 +110,7 @@ private:
 	///
 	///
 	////////////////////////////////////////////////////////////
-	sf::VertexArray m_vertices;
+	unique_ptr<sf::VertexArray> m_vertices;
 
 	////////////////////////////////////////////////////////////
 	/// \brief Указатель на текстуру.
@@ -136,7 +136,8 @@ private:
 	/// \param states     Параметры рисования.
 	///
 	////////////////////////////////////////////////////////////
-	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
+	void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
+	//virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 	
 
 public:
@@ -179,7 +180,7 @@ public:
 	/// \param deltaTime     Количество прошедшего времени.
 	///
 	////////////////////////////////////////////////////////////
-	void Tick(float deltaTime);
+	virtual void Tick(float deltaTime);
 
 	////////////////////////////////////////////////////////////
 	/// \brief Получить угловые точки.
@@ -220,5 +221,9 @@ public:
 	///
 	////////////////////////////////////////////////////////////
 	uint16_t GetFlags() const;
+
+	sf::VertexArray* GetVertexArray() const;
+
+	sf::Texture* GetTexture() const;
 };
 

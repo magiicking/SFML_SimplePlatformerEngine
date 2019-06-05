@@ -164,6 +164,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\MagicAnimatedObject.cpp" />
     <ClCompile Include="..\MagicGameObject.cpp" />
     <ClCompile Include="..\MagicGrid.cpp" />
     <ClCompile Include="..\MagicGridCell.cpp" />
@@ -180,6 +181,7 @@
     <ClCompile Include="MySimlpePlatformerEngine_Tests.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\MagicAnimatedObject.h" />
     <ClInclude Include="..\MagicGameObject.h" />
     <ClInclude Include="..\MagicGrid.h" />
     <ClInclude Include="..\MagicGridCell.h" />

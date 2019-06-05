@@ -31,11 +31,14 @@
     <Filter Include="Файлы заголовков\Сетка">
       <UniqueIdentifier>{e30bac0e-35a1-4bbd-b3cd-3b362bdfdd08}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Исходные файлы\Игровые объекты">
+      <UniqueIdentifier>{28d97be0-3c64-45d1-9251-a42c3de57f4c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Файлы заголовков\Игровые объекты">
+      <UniqueIdentifier>{742f3b6f-7766-4ea0-a315-98c0544e63a8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\MagicGameObject.cpp">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
     <ClCompile Include="..\utilites.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
@@ -60,11 +63,14 @@
     <ClCompile Include="..\SFML_SimplePlatformerEngine.cpp">
       <Filter>Самый главный файл</Filter>
     </ClCompile>
+    <ClCompile Include="..\MagicAnimatedObject.cpp">
+      <Filter>Исходные файлы\Игровые объекты</Filter>
+    </ClCompile>
+    <ClCompile Include="..\MagicGameObject.cpp">
+      <Filter>Исходные файлы\Игровые объекты</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\MagicGameObject.h">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
     <ClInclude Include="..\utilites.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
@@ -85,6 +91,12 @@
     </ClInclude>
     <ClInclude Include="..\pch.h">
       <Filter>Прекомпилированные заголовки</Filter>
+    </ClInclude>
+    <ClInclude Include="..\MagicGameObject.h">
+      <Filter>Файлы заголовков\Игровые объекты</Filter>
+    </ClInclude>
+    <ClInclude Include="..\MagicAnimatedObject.h">
+      <Filter>Файлы заголовков\Игровые объекты</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
