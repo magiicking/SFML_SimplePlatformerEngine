@@ -415,14 +415,24 @@ namespace MySimlpePlatformerEngineTests
 			unique_ptr<MagicGameObject> gameObj1 = make_unique<MagicGameObject>(sf::FloatRect(101.0f, 0.0f, 200.0f, 200.0f));
 			grid->AddStaticObject(gameObj1.get());
 			utilites::MagicGameObjectsConcurrensUnorderedSet* set = grid->GetCellStaticObjectsSet(1, 0);
+			Assert::IsFalse(set->find(gameObj1.get()) == set->end());
+			set = grid->GetCellStaticObjectsSet(1, 1);
+			Assert::IsFalse(set->find(gameObj1.get()) == set->end());
+			set = grid->GetCellStaticObjectsSet(0, 0);
+			Assert::IsTrue(set->find(gameObj1.get()) == set->end());
 		}
 
 		TEST_METHOD(GetCellDynamicObjectsSet)
 		{
 			unique_ptr<MagicGrid> grid = make_unique<MagicGrid>(5, 5, 100.0f);
 			unique_ptr<MagicGameObject> gameObj1 = make_unique<MagicGameObject>(sf::FloatRect(101.0f, 0.0f, 200.0f, 200.0f));
-			Assert::IsTrue(grid->AddDynamicObject(gameObj1.get()));
-			Assert::IsFalse(grid->AddDynamicObject(gameObj1.get()));
+			grid->AddDynamicObject(gameObj1.get());
+			utilites::MagicGameObjectsConcurrensUnorderedSet* set = grid->GetCellDynamicObjectsSet(1, 0);
+			Assert::IsFalse(set->find(gameObj1.get()) == set->end());
+			set = grid->GetCellDynamicObjectsSet(1, 1);
+			Assert::IsFalse(set->find(gameObj1.get()) == set->end());
+			set = grid->GetCellDynamicObjectsSet(0, 0);
+			Assert::IsTrue(set->find(gameObj1.get()) == set->end());
 		}
 	};
 }
