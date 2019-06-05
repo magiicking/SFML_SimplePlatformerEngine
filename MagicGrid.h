@@ -61,7 +61,7 @@ public:
 	/// \param y     у-координата ячейки.
 	///
 	////////////////////////////////////////////////////////////
-	concurrent_unordered_set<MagicGameObject*, utilites::PointerHash<MagicGameObject>, utilites::PointerComparator<MagicGameObject>>* const GetCellStaticObjectsSet(const size_t x, const size_t y)  const;
+	utilites::MagicGameObjectsConcurrensUnorderedSet* const GetCellStaticObjectsSet(const size_t x, const size_t y)  const;
 
 	////////////////////////////////////////////////////////////
 	/// \brief Возвращает сет подвижных объектов из определенной ячейки.
@@ -70,7 +70,7 @@ public:
 	/// \param y     у-координата ячейки.
 	///
 	////////////////////////////////////////////////////////////
-	concurrent_unordered_set<MagicGameObject*, utilites::PointerHash<MagicGameObject>, utilites::PointerComparator<MagicGameObject>>* const GetCellDynamicObjectsSet(const size_t x, const size_t y)  const;
+	utilites::MagicGameObjectsConcurrensUnorderedSet* const GetCellDynamicObjectsSet(const size_t x, const size_t y)  const;
 
 	////////////////////////////////////////////////////////////
 	/// \brief Добавляет статичный объект в сетку.
@@ -82,6 +82,17 @@ public:
 	///
 	////////////////////////////////////////////////////////////
 	bool AddStaticObject(MagicGameObject* object);
+
+	////////////////////////////////////////////////////////////
+	/// \brief Добавляет подвижный объект в сетку.
+	///
+	/// Объект помещается в те ячейки, которые пересекаются
+	/// с границами объекта.
+	/// 
+	/// \param object     Указатель на объект.
+	///
+	////////////////////////////////////////////////////////////
+	bool AddDynamicObject(MagicGameObject* object);
 
 	////////////////////////////////////////////////////////////
 	/// \brief Получит размер ячейки.

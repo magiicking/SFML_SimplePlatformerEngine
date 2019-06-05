@@ -9,6 +9,7 @@ using namespace std;
 using namespace concurrency;
 
 
+
 ////////////////////////////////////////////////////////////
 /// \brief Ячейка сетки столкновений.
 ///
@@ -21,13 +22,13 @@ private:
 	/// \brief Уникальный указатель на сет неподвижных объектов.
 	///
 	////////////////////////////////////////////////////////////
-	unique_ptr<concurrent_unordered_set<MagicGameObject*,utilites::PointerHash<MagicGameObject>,utilites::PointerComparator<MagicGameObject>>> static_objects;
+	unique_ptr<utilites::MagicGameObjectsConcurrensUnorderedSet> static_objects;
 
 	////////////////////////////////////////////////////////////
 	/// \brief Уникальный указатель на сет подвижных объектов.
 	///
 	////////////////////////////////////////////////////////////
-	unique_ptr<concurrent_unordered_set<MagicGameObject*, utilites::PointerHash<MagicGameObject>, utilites::PointerComparator<MagicGameObject>>> dynamic_objects;
+	unique_ptr<utilites::MagicGameObjectsConcurrensUnorderedSet> dynamic_objects;
 
 public:
 	////////////////////////////////////////////////////////////
@@ -42,13 +43,13 @@ public:
 	/// \brief Возвращает указатель на сет неподвижных объектов. 
 	///
 	////////////////////////////////////////////////////////////
-	concurrent_unordered_set<MagicGameObject*, utilites::PointerHash<MagicGameObject>, utilites::PointerComparator<MagicGameObject>>* const GetStaticObjectsSet() const;
+	utilites::MagicGameObjectsConcurrensUnorderedSet* const GetStaticObjectsSet() const;
 
 	////////////////////////////////////////////////////////////
 	/// \brief Возвращает указатель на сет подвижных объектов.
 	///
 	////////////////////////////////////////////////////////////
-	concurrent_unordered_set<MagicGameObject*, utilites::PointerHash<MagicGameObject>, utilites::PointerComparator<MagicGameObject>>* const GetDynamicObjectsSet() const;
+	utilites::MagicGameObjectsConcurrensUnorderedSet* const GetDynamicObjectsSet() const;
 
 	////////////////////////////////////////////////////////////
 	/// \brief Добавляет статический объект.

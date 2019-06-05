@@ -9,6 +9,8 @@ class MagicGrid;
 class MagicGameObject;
 enum class ObjectTypeFlags : uint16_t;
 
+
+
 ////////////////////////////////////////////////////////////
 /// \brief  ласс, включающий вс€кие полезные процедуры и структуры.
 ///
@@ -16,6 +18,8 @@ enum class ObjectTypeFlags : uint16_t;
 class utilites
 {
 public:
+
+
 
 	////////////////////////////////////////////////////////////
 	/// \brief Ѕинарные коды расположени€ точки 
@@ -108,6 +112,12 @@ public:
 			return false;
 		}
 	};
+
+	////////////////////////////////////////////////////////////
+	/// \brief
+	///
+	////////////////////////////////////////////////////////////
+	typedef concurrent_unordered_set<MagicGameObject*, PointerHash<MagicGameObject>, PointerComparator<MagicGameObject>> MagicGameObjectsConcurrensUnorderedSet;
 
 	////////////////////////////////////////////////////////////
 	/// \brief —кал€рное произведение двух векторов.

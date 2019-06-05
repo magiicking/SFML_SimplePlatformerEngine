@@ -46,7 +46,7 @@ public:
 	/// \param y     y-координата €чейки
 	///
 	////////////////////////////////////////////////////////////
-	concurrent_unordered_set<MagicGameObject*, utilites::PointerHash<MagicGameObject>, utilites::PointerComparator<MagicGameObject>>* const GetCellStaticObjectsSet(const size_t y) const;
+	utilites::MagicGameObjectsConcurrensUnorderedSet* const GetCellStaticObjectsSet(const size_t y) const;
 
 	////////////////////////////////////////////////////////////
 	/// \brief ѕолучает сет подвижных объектов.
@@ -57,7 +57,7 @@ public:
     /// \param y     y-координата €чейки
 	///
 	////////////////////////////////////////////////////////////
-	concurrent_unordered_set<MagicGameObject*, utilites::PointerHash<MagicGameObject>, utilites::PointerComparator<MagicGameObject>>* const GetCellDynamicObjectsSet(const size_t y) const;
+	utilites::MagicGameObjectsConcurrensUnorderedSet* const GetCellDynamicObjectsSet(const size_t y) const;
 
 	////////////////////////////////////////////////////////////
 	/// \brief ƒобавл€ет в €чейку статический объект.
@@ -67,5 +67,14 @@ public:
 	///
 	////////////////////////////////////////////////////////////
 	bool AddStaticObject(const size_t y, MagicGameObject* object);
+
+	////////////////////////////////////////////////////////////
+	/// \brief ƒобавл€ет в €чейку подвижный объект.
+	/// 
+	/// \param y     y-координата €чейки.
+	/// \param object     ”казатель на добавл€емый объект.
+	///
+	////////////////////////////////////////////////////////////
+	bool AddDynamicObject(const size_t y, MagicGameObject* object);
 };
 

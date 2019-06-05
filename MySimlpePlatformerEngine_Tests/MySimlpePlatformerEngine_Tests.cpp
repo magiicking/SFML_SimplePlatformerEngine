@@ -8,7 +8,7 @@ using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
 namespace MySimlpePlatformerEngineTests
 {
-	TEST_CLASS(MySimlpePlatformerEngineTests)
+	/*TEST_CLASS(MySimlpePlatformerEngineTests)
 	{
 	public:
 		
@@ -16,7 +16,7 @@ namespace MySimlpePlatformerEngineTests
 		{
 			Assert::AreEqual(1, 1);
 		}
-	};
+	};*/
 
 	TEST_CLASS(utilites_test)
 	{
@@ -250,7 +250,7 @@ namespace MySimlpePlatformerEngineTests
 
 		TEST_METHOD(RasterizeSegment)
 		{
-
+			Assert::IsFalse(true);
 		}
 
 		TEST_METHOD(GetSegmentsIntersection)
@@ -339,6 +339,90 @@ namespace MySimlpePlatformerEngineTests
 
 			hasHit = utilites::GetRayAndRectCollisionPoint(&Start, &Start, &rect, &result, &blocking);
 			Assert::IsFalse(hasHit);
+		}
+
+		TEST_METHOD(VectorsAreEqual)
+		{
+			sf::Vector2f A = sf::Vector2f(1.0f, 2.0f);
+			sf::Vector2f B = sf::Vector2f(2.0f, 2.0f);
+			sf::Vector2f C = sf::Vector2f(-1.0f, -2.0f);
+			sf::Vector2f D = sf::Vector2f(1.0f, 2.0f);
+			Assert::IsFalse(utilites::VectorsAreEqual(&A, &B));
+			Assert::IsFalse(utilites::VectorsAreEqual(&A, &C));
+			Assert::IsTrue(utilites::VectorsAreEqual(&A, &D));
+			Assert::IsTrue(utilites::VectorsAreEqual(&A, &A));
+		}
+
+		TEST_METHOD(GetObjectsInRect)
+		{
+			Assert::IsFalse(true);
+		}
+
+		TEST_METHOD(GetPointsInRectForRaycast)
+		{
+			Assert::IsFalse(true);
+		}
+
+		TEST_METHOD(GetPointsInRectForRaycast_HandleGameObject)
+		{
+			Assert::IsFalse(true);
+		}
+
+		TEST_METHOD(RectanglesOverlaping)
+		{
+			sf::FloatRect rect1 = sf::FloatRect(0.0f, 0.0f, 5.0f, 5.0f);
+			sf::FloatRect rect2 = sf::FloatRect(2.0f, 2.0f, 7.0f, 7.0f);
+			sf::FloatRect rect3 = sf::FloatRect(-1.0f, 0.0f, 5.0f, 6.0f);
+			sf::FloatRect rect4 = sf::FloatRect(5.1f, 5.1f, 5.0f, 5.0f);
+			Assert::IsTrue(rect1.intersects(rect2));
+			Assert::IsTrue(utilites::RectanglesOverlaping(&rect1, &rect2));
+			Assert::IsTrue(rect1.intersects(rect3));
+			Assert::IsTrue(utilites::RectanglesOverlaping(&rect1, &rect3));
+			Assert::IsFalse(rect1.intersects(rect4));
+			Assert::IsFalse(utilites::RectanglesOverlaping(&rect1, &rect4));
+		}
+	};
+
+	TEST_CLASS(grid_test)
+	{
+
+		TEST_METHOD(GetCellSize)
+		{
+			unique_ptr<MagicGrid> grid = make_unique<MagicGrid>(5, 5, 100.0f);
+
+			Assert::AreEqual(100.0f, grid->GetCellSize());
+		}
+
+		TEST_METHOD(AddStaticObject)
+		{
+			unique_ptr<MagicGrid> grid = make_unique<MagicGrid>(5, 5, 100.0f);
+			unique_ptr<MagicGameObject> gameObj1 = make_unique<MagicGameObject>(sf::FloatRect(101.0f, 0.0f, 200.0f, 200.0f));
+			Assert::IsTrue(grid->AddStaticObject(gameObj1.get()));
+			Assert::IsFalse(grid->AddStaticObject(gameObj1.get()));
+		}
+
+		TEST_METHOD(AddDynamicObject)
+		{
+			unique_ptr<MagicGrid> grid = make_unique<MagicGrid>(5, 5, 100.0f);
+			unique_ptr<MagicGameObject> gameObj1 = make_unique<MagicGameObject>(sf::FloatRect(101.0f, 0.0f, 200.0f, 200.0f));
+			Assert::IsTrue(grid->AddDynamicObject(gameObj1.get()));
+			Assert::IsFalse(grid->AddDynamicObject(gameObj1.get()));
+		}
+
+		TEST_METHOD(GetCellStaticObjectsSet)
+		{
+			unique_ptr<MagicGrid> grid = make_unique<MagicGrid>(5, 5, 100.0f);
+			unique_ptr<MagicGameObject> gameObj1 = make_unique<MagicGameObject>(sf::FloatRect(101.0f, 0.0f, 200.0f, 200.0f));
+			grid->AddStaticObject(gameObj1.get());
+			utilites::MagicGameObjectsConcurrensUnorderedSet* set = grid->GetCellStaticObjectsSet(1, 0);
+		}
+
+		TEST_METHOD(GetCellDynamicObjectsSet)
+		{
+			unique_ptr<MagicGrid> grid = make_unique<MagicGrid>(5, 5, 100.0f);
+			unique_ptr<MagicGameObject> gameObj1 = make_unique<MagicGameObject>(sf::FloatRect(101.0f, 0.0f, 200.0f, 200.0f));
+			Assert::IsTrue(grid->AddDynamicObject(gameObj1.get()));
+			Assert::IsFalse(grid->AddDynamicObject(gameObj1.get()));
 		}
 	};
 }
