@@ -532,7 +532,7 @@ void utilites::GetPointsInRectForRaycast(const sf::Vector2f* const rayStart, con
 					GetObjectsInCell(x, y, grid, testFlag, allCellObjectsSet.get());
 					parallel_for_each(allCellObjectsSet->begin(), allCellObjectsSet->end(), [rayStart, pointsSet](MagicGameObject* obj)
 						{
-							GetPointsInRectForRaycast_HandleGameObject((*it), rayStart, pointsSet);
+							GetPointsInRectForRaycast_HandleGameObject(obj, rayStart, pointsSet);
 						});
 				});
 		});
