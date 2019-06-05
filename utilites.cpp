@@ -487,36 +487,30 @@ void utilites::GetObjectsInRect(const sf::FloatRect* const rect, const MagicGrid
 		{
 			parallel_for<size_t>(bottomY, topY, 1, [testFlag, grid, objectsSet, x](size_t y)
 				{
-					MagicGameObjectsConcurrensUnorderedSet* set = grid->GetCellDynamicObjectsSet(x, y);
-					MagicGameObjectsConcurrensUnorderedSet::iterator it;
-					if (set != nullptr)
-					{
-						it = set->begin();
-						while (it != set->end())
-						{
-							if ((*it)->GetFlags() & (uint16_t)testFlag)
-							{
-								auto insRes = objectsSet->insert(*it);
-							}
-							auto it_result = it++;
-						}
-					}
-					if (set != nullptr)
-					{
-						set = grid->GetCellStaticObjectsSet(x, y);
-						it = set->begin();
-						while (it != set->end())
-						{
-							if ((*it)->GetFlags() & (uint16_t)testFlag)
-							{
-								auto insRes2 = objectsSet->insert(*it);
-							}
-							auto it_result = it++;
-						}
-					}
+					GetObjectsInCell(x, y, grid, testFlag, objectsSet);
 				});
 		});
 	
+}
+
+void utilites::GetObjectsInCell(const size_t x, const size_t y, const MagicGrid* const grid, ObjectTypeFlags testFlag, MagicGameObjectsConcurrensUnorderedSet* const objectsSet)
+{
+	FilterMagicGameObjectsSet(grid->GetCellDynamicObjectsSet(x, y), testFlag, objectsSet);
+	FilterMagicGameObjectsSet(grid->GetCellStaticObjectsSet(x, y), testFlag, objectsSet);
+}
+
+void utilites::FilterMagicGameObjectsSet(MagicGameObjectsConcurrensUnorderedSet* const originalSet, ObjectTypeFlags testFlag, MagicGameObjectsConcurrensUnorderedSet* const filteredSet)
+{
+	if (originalSet != nullptr)
+	{
+		parallel_for_each(originalSet->begin(), originalSet->end(), [filteredSet, testFlag](MagicGameObject* obj)
+			{
+				if (obj->GetFlags() & (uint16_t)testFlag)
+				{
+					auto insRes2 = filteredSet->insert(obj);
+				}
+			});
+	}
 }
 
 void utilites::GetPointsInRectForRaycast(const sf::Vector2f* const rayStart, const sf::FloatRect* const rect, const MagicGrid* const grid, ObjectTypeFlags testFlag, MagicPointsConcurrensUnorderedSet* const pointsSet)
@@ -651,6 +645,32 @@ bool utilites::RectanglesOverlaping(const sf::FloatRect* const rect1, const sf::
 	if (rect1->left > rect2->left + rect2->width || rect2->left > rect1->left + rect1->width)
 		return false;
 	return true;
+}
+
+void utilites::GetPointsForLightingPoligon(const sf::FloatRect* const view, const sf::Vector2f* const rayStart, const MagicGrid* const grid, concurrent_vector<LightingCollisionPoint>* const pointsSet)
+{
+	unique_ptr<MagicPointsConcurrensUnorderedSet> set = make_unique<MagicPointsConcurrensUnorderedSet>();
+
+	GetPointsInRectForRaycast(rayStart, view, grid, ObjectTypeFlags::VisibilityBlocking, set.get());
+	parallel_for_each(set->begin(), set->end(), [pointsSet, rayStart, view, grid](sf::Vector2f* checkPoint)
+		{
+			unique_ptr<sf::Vector2f> borderPoint = make_unique<sf::Vector2f>();
+			unique_ptr <bool> blocked = make_unique<bool>();
+			*blocked = false;
+			if (GetRayAndViewBorderIntersectionPoint(rayStart, checkPoint, view, borderPoint.get()))
+			{
+				vector<utilites::RasterizedCell> cells = RasterizeSegment(rayStart, borderPoint.get(), &(grid->GetOriginPoint()), grid->GetCellSize());
+				if (cells.size() > 0)
+				{
+
+				}
+			}
+			if (!*blocked)
+			{
+				//pointsSet->push_back(LightingCollisionPoint(*borderPoint, *rayStart));
+			}
+		});
+
 }
 
 vector<utilites::RasterizedCell> utilites::RasterizeSegment(const sf::Vector2f* const A, const sf::Vector2f* const B, const sf::Vector2f* const gridOriginPoint, const float gridCellSize)

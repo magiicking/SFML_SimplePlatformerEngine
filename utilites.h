@@ -80,6 +80,19 @@ public:
 		}
 	};
 
+	struct LightingCollisionPoint
+	{
+	public:
+		sf::Vector2f point;
+		float angle;
+
+		LightingCollisionPoint(sf::Vector2f _point, sf::Vector2f originPoint)
+		{
+			point = _point;
+			angle = atan2f(_point.y - originPoint.y, _point.x - originPoint.x);
+		}
+	};
+
 	////////////////////////////////////////////////////////////
 	/// \brief Хэш-функция указателей.
 	///
@@ -340,6 +353,10 @@ public:
 	////////////////////////////////////////////////////////////
 	static void GetObjectsInRect(const sf::FloatRect* const rect, const MagicGrid* const grid, ObjectTypeFlags testFlag, MagicGameObjectsConcurrensUnorderedSet* const objectsSet);
 
+	static void GetObjectsInCell(const size_t x, const size_t y, const MagicGrid* const grid, ObjectTypeFlags testFlag, MagicGameObjectsConcurrensUnorderedSet* const objectsSet);
+
+	static void FilterMagicGameObjectsSet(MagicGameObjectsConcurrensUnorderedSet* const originalSet, ObjectTypeFlags testFlag, MagicGameObjectsConcurrensUnorderedSet* const filteredSet);
+
 	////////////////////////////////////////////////////////////
 	/// \brief Получить угловые точки объектов ячеек сетки, попадающих в прямоугольную область.
 	///
@@ -378,5 +395,7 @@ public:
 	///
 	////////////////////////////////////////////////////////////
 	static bool RectanglesOverlaping(const sf::FloatRect* const rect1, const sf::FloatRect* const rect2);
+
+	static void GetPointsForLightingPoligon(const sf::FloatRect* const view, const sf::Vector2f* const rayStart, const MagicGrid* const grid, concurrent_vector<LightingCollisionPoint>* const pointsSet);
 };
 
