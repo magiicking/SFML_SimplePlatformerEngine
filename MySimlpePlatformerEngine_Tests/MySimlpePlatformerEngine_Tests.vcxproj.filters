@@ -57,9 +57,6 @@
     <ClCompile Include="..\pugixml.cpp">
       <Filter>Исходные файлы\pugixml</Filter>
     </ClCompile>
-    <ClCompile Include="..\pch.cpp">
-      <Filter>Прекомпилированные заголовки</Filter>
-    </ClCompile>
     <ClCompile Include="..\SFML_SimplePlatformerEngine.cpp">
       <Filter>Самый главный файл</Filter>
     </ClCompile>
@@ -68,6 +65,9 @@
     </ClCompile>
     <ClCompile Include="..\MagicGameObject.cpp">
       <Filter>Исходные файлы\Игровые объекты</Filter>
+    </ClCompile>
+    <ClCompile Include="pch.cpp">
+      <Filter>Прекомпилированные заголовки</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -89,14 +89,14 @@
     <ClInclude Include="..\MagicGridCell.h">
       <Filter>Файлы заголовков\Сетка</Filter>
     </ClInclude>
-    <ClInclude Include="..\pch.h">
-      <Filter>Прекомпилированные заголовки</Filter>
-    </ClInclude>
     <ClInclude Include="..\MagicGameObject.h">
       <Filter>Файлы заголовков\Игровые объекты</Filter>
     </ClInclude>
     <ClInclude Include="..\MagicAnimatedObject.h">
       <Filter>Файлы заголовков\Игровые объекты</Filter>
+    </ClInclude>
+    <ClInclude Include="pch.h">
+      <Filter>Прекомпилированные заголовки</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

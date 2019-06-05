@@ -118,6 +118,7 @@ public:
 	///
 	////////////////////////////////////////////////////////////
 	typedef concurrent_unordered_set<MagicGameObject*, PointerHash<MagicGameObject>, PointerComparator<MagicGameObject>> MagicGameObjectsConcurrensUnorderedSet;
+	typedef concurrent_unordered_set<sf::Vector2f*, PointerHash<sf::Vector2f>, PointerComparator<sf::Vector2f>> MagicPointsConcurrensUnorderedSet;
 
 	////////////////////////////////////////////////////////////
 	/// \brief Скалярное произведение двух векторов.
@@ -337,9 +338,7 @@ public:
 	/// \param objectsSet     Сет, в который должны попасть объекты.
 	///
 	////////////////////////////////////////////////////////////
-	static void GetObjectsInRect(const sf::FloatRect* const rect, const MagicGrid* const grid, ObjectTypeFlags testFlag, concurrent_unordered_set<MagicGameObject*,
-		utilites::PointerHash<MagicGameObject>,
-		utilites::PointerComparator<MagicGameObject>>* const objectsSet);
+	static void GetObjectsInRect(const sf::FloatRect* const rect, const MagicGrid* const grid, ObjectTypeFlags testFlag, MagicGameObjectsConcurrensUnorderedSet* const objectsSet);
 
 	////////////////////////////////////////////////////////////
 	/// \brief Получить угловые точки объектов ячеек сетки, попадающих в прямоугольную область.
@@ -356,7 +355,7 @@ public:
 	////////////////////////////////////////////////////////////
 	static void GetPointsInRectForRaycast(const sf::Vector2f* const rayStart, const sf::FloatRect* const rect,
 		const MagicGrid* const grid,
-		ObjectTypeFlags testFlag, concurrent_unordered_set<sf::Vector2f*,utilites::PointerHash<sf::Vector2f>,utilites::PointerComparator<sf::Vector2f>>* const pointsSet);
+		ObjectTypeFlags testFlag, MagicPointsConcurrensUnorderedSet* const pointsSet);
 
 	////////////////////////////////////////////////////////////
 	/// \brief Получение "нужных" точек объекта.
@@ -369,7 +368,7 @@ public:
 	/// \param pointsSet     Сет, в который должны попасть точки объектов.
 	///
 	////////////////////////////////////////////////////////////
-	static void GetPointsInRectForRaycast_HandleGameObject(const MagicGameObject* const gameObject, const sf::Vector2f* const rayStart, concurrent_unordered_set<sf::Vector2f*, utilites::PointerHash<sf::Vector2f>, utilites::PointerComparator<sf::Vector2f>>* const pointsSet);
+	static void GetPointsInRectForRaycast_HandleGameObject(const MagicGameObject* const gameObject, const sf::Vector2f* const rayStart, MagicPointsConcurrensUnorderedSet* const pointsSet);
 
 	////////////////////////////////////////////////////////////
 	/// \brief Проверяет, пересекаются ли два прямоугольника.

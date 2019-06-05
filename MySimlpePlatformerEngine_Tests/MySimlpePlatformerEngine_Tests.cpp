@@ -1,4 +1,5 @@
 #include "pch.h"
+
 #include "CppUnitTest.h"
 #include "../utilites.h"
 #include "../MagicGameObject.h"
@@ -250,7 +251,21 @@ namespace MySimlpePlatformerEngineTests
 
 		TEST_METHOD(RasterizeSegment)
 		{
-			Assert::IsFalse(true);
+			sf::Vector2f A = sf::Vector2f(0.0f, 0.0f);
+			sf::Vector2f B = sf::Vector2f(300.0f, 300.0f);
+			sf::Vector2f C = sf::Vector2f(3.0f, -1.0f);
+			sf::Vector2f gridOrigin = sf::Vector2f(0.0f, 0.0f);
+			float gridCellSize = 100.0f;
+
+			vector<utilites::RasterizedCell> result = utilites::RasterizeSegment(&A, &B, &gridOrigin, gridCellSize);
+			Assert::AreEqual(4, (int)result.size());
+
+
+			result = utilites::RasterizeSegment(&A, &C, &gridOrigin, gridCellSize);
+			Assert::AreEqual(2, (int)result.size());
+
+			result = utilites::RasterizeSegment(&A, &A, &gridOrigin, gridCellSize);
+			Assert::AreEqual(1, (int)result.size());
 		}
 
 		TEST_METHOD(GetSegmentsIntersection)
@@ -355,17 +370,65 @@ namespace MySimlpePlatformerEngineTests
 
 		TEST_METHOD(GetObjectsInRect)
 		{
-			Assert::IsFalse(true);
+			//Assert::IsFalse(true);
+			unique_ptr<MagicGrid> grid = make_unique<MagicGrid>(5, 5, 100.0f);
+			unique_ptr<MagicGameObject> gameObj1 = make_unique<MagicGameObject>(sf::FloatRect(101.0f, 0.0f, 200.0f, 200.0f));
+			unique_ptr<MagicGameObject> gameObj2 = make_unique<MagicGameObject>(sf::FloatRect(101.0f, 300.0f, 200.0f, 200.0f));
+			grid->AddStaticObject(gameObj1.get());
+			grid->AddStaticObject(gameObj2.get());
+			sf::FloatRect checkRect1 = sf::FloatRect(0.0f, 0.0f, 200.0f, 200.0f);
+			sf::FloatRect checkRect2 = sf::FloatRect(400.0f, 400.0f, 200.0f, 200.0f);
+			sf::FloatRect checkRect3 = sf::FloatRect(0.0f, 0.0f, 500.0f, 500.0f);
+
+			unique_ptr<utilites::MagicGameObjectsConcurrensUnorderedSet> set = make_unique<utilites::MagicGameObjectsConcurrensUnorderedSet>();
+
+			utilites::GetObjectsInRect(&checkRect1, grid.get(), ObjectTypeFlags::VisibilityBlocking, set.get());
+			Assert::IsTrue(set->find(gameObj1.get()) != set->end());
+			Assert::IsTrue(set->find(gameObj2.get()) == set->end());
+
+			utilites::GetObjectsInRect(&checkRect2, grid.get(), ObjectTypeFlags::VisibilityBlocking, set.get());
+			Assert::IsTrue(set->find(gameObj1.get()) == set->end());
+			Assert::IsTrue(set->find(gameObj2.get()) == set->end());
+
+			utilites::GetObjectsInRect(&checkRect3, grid.get(), ObjectTypeFlags::VisibilityBlocking, set.get());
+			Assert::IsTrue(set->find(gameObj1.get()) != set->end());
+			Assert::IsTrue(set->find(gameObj2.get()) != set->end());
+			
 		}
 
 		TEST_METHOD(GetPointsInRectForRaycast)
 		{
-			Assert::IsFalse(true);
+			unique_ptr<MagicGrid> grid = make_unique<MagicGrid>(5, 5, 100.0f);
+			unique_ptr<MagicGameObject> gameObj1 = make_unique<MagicGameObject>(sf::FloatRect(101.0f, 0.0f, 200.0f, 200.0f));
+			unique_ptr<MagicGameObject> gameObj2 = make_unique<MagicGameObject>(sf::FloatRect(101.0f, 300.0f, 200.0f, 200.0f));
+			grid->AddStaticObject(gameObj1.get());
+			grid->AddStaticObject(gameObj2.get());
+			sf::FloatRect checkRect1 = sf::FloatRect(0.0f, 0.0f, 200.0f, 200.0f);
+			sf::FloatRect checkRect2 = sf::FloatRect(400.0f, 400.0f, 200.0f, 200.0f);
+			sf::FloatRect checkRect3 = sf::FloatRect(0.0f, 0.0f, 500.0f, 500.0f);
+			sf::Vector2f rayStart = sf::Vector2f(1.0f, 100.0f);
+
+			unique_ptr<utilites::MagicPointsConcurrensUnorderedSet> set = make_unique<utilites::MagicPointsConcurrensUnorderedSet>();
+
+			utilites::GetPointsInRectForRaycast(&rayStart, &checkRect1, grid.get(), ObjectTypeFlags::VisibilityBlocking, set.get());			
+			Assert::AreEqual(2, (int)set->size());
+
+			utilites::GetPointsInRectForRaycast(&rayStart, &checkRect2, grid.get(), ObjectTypeFlags::VisibilityBlocking, set.get());
+			Assert::AreEqual(0, (int)set->size());
+
+			utilites::GetPointsInRectForRaycast(&rayStart, &checkRect3, grid.get(), ObjectTypeFlags::VisibilityBlocking, set.get());
+			Assert::AreEqual(5, (int)set->size());
 		}
 
 		TEST_METHOD(GetPointsInRectForRaycast_HandleGameObject)
 		{
-			Assert::IsFalse(true);
+			unique_ptr<MagicGameObject> gameObj1 = make_unique<MagicGameObject>(sf::FloatRect(101.0f, 300.0f, 200.0f, 200.0f));
+			unique_ptr<utilites::MagicPointsConcurrensUnorderedSet> set = make_unique<utilites::MagicPointsConcurrensUnorderedSet>();
+			sf::Vector2f rayStart = sf::Vector2f(1.0f, 100.0f);
+
+			utilites::GetPointsInRectForRaycast_HandleGameObject(gameObj1.get(), &rayStart, set.get());
+
+			Assert::AreEqual(3, (int)set->size());
 		}
 
 		TEST_METHOD(RectanglesOverlaping)
@@ -420,6 +483,8 @@ namespace MySimlpePlatformerEngineTests
 			Assert::IsFalse(set->find(gameObj1.get()) == set->end());
 			set = grid->GetCellStaticObjectsSet(0, 0);
 			Assert::IsTrue(set->find(gameObj1.get()) == set->end());
+			set = grid->GetCellStaticObjectsSet(100, 0);
+			Assert::IsNull(set);
 		}
 
 		TEST_METHOD(GetCellDynamicObjectsSet)
@@ -433,6 +498,8 @@ namespace MySimlpePlatformerEngineTests
 			Assert::IsFalse(set->find(gameObj1.get()) == set->end());
 			set = grid->GetCellDynamicObjectsSet(0, 0);
 			Assert::IsTrue(set->find(gameObj1.get()) == set->end());
+			set = grid->GetCellStaticObjectsSet(100, 0);
+			Assert::IsNull(set);
 		}
 	};
 }

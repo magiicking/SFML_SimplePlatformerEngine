@@ -22,6 +22,7 @@ MagicGameObject::MagicGameObject(const sf::FloatRect _objectRect)
 	topRight = make_unique<sf::Vector2f>(objectRect.left + objectRect.width, objectRect.top + objectRect.height);
 	bottomLeft = make_unique<sf::Vector2f>(objectRect.left, objectRect.top);
 	bottomRight = make_unique<sf::Vector2f>(objectRect.left + objectRect.width, objectRect.top);
+	flags = (uint16_t)ObjectTypeFlags::VisibilityBlocking;
 }
 
 sf::FloatRect MagicGameObject::GetRect() const
