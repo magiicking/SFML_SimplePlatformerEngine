@@ -527,34 +527,13 @@ void utilites::GetPointsInRectForRaycast(const sf::Vector2f* const rayStart, con
 		{
 			parallel_for<size_t>(bottomY, topY, 1, [rayStart, testFlag, grid, pointsSet, x](size_t y)
 				{
-					MagicGameObjectsConcurrensUnorderedSet*set = grid->GetCellDynamicObjectsSet(x, y);
-					MagicGameObjectsConcurrensUnorderedSet::iterator it;
-					if (set != nullptr)
-					{
-						it = set->begin();
-						while (it != set->end())
-						{
-							if ((*it)->GetFlags() & (uint16_t)testFlag)
-							{
-								GetPointsInRectForRaycast_HandleGameObject((*it), rayStart, pointsSet);
-							}
-							auto it_result = it++;
-						}
-					}
+					unique_ptr<MagicGameObjectsConcurrensUnorderedSet> allCellObjectsSet = make_unique<MagicGameObjectsConcurrensUnorderedSet>();
 
-					set = grid->GetCellStaticObjectsSet(x, y);
-					if (set != nullptr)
-					{
-						it = set->begin();
-						while (it != set->end())
+					GetObjectsInCell(x, y, grid, testFlag, allCellObjectsSet.get());
+					parallel_for_each(allCellObjectsSet->begin(), allCellObjectsSet->end(), [rayStart, pointsSet](MagicGameObject* obj)
 						{
-							if ((*it)->GetFlags() & (uint16_t)testFlag)
-							{
-								GetPointsInRectForRaycast_HandleGameObject((*it), rayStart, pointsSet);
-							}
-							auto it_result = it++;
-						}
-					}
+							GetPointsInRectForRaycast_HandleGameObject((*it), rayStart, pointsSet);
+						});
 				});
 		});
 }
