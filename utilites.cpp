@@ -236,12 +236,14 @@ bool utilites::GetSegmentsIntersection(const sf::Vector2f* const A, const sf::Ve
 
 bool utilites::GetRayAndViewBorderIntersectionPoint(const sf::Vector2f* const A, const sf::Vector2f* const B, const sf::FloatRect* const viewRect, sf::Vector2f* const result)
 {
-	if (NearZero(A->x-B->x) && NearZero(A->y - B->y))
+	if (NearZero(A->x - B->x) && NearZero(A->y - B->y))
 	{
 		return false;
 	}
-	if (A->x < viewRect->left || A->x > viewRect->left + viewRect->width
+	if ((A->x < viewRect->left || A->x > viewRect->left + viewRect->width
 		|| A->y < viewRect->top || A->y > viewRect->top + viewRect->height)
+		&& (B->x < viewRect->left || B->x > viewRect->left + viewRect->width
+			|| B->y < viewRect->top || B->y > viewRect->top + viewRect->height))
 	{
 		return false;
 	}

@@ -40,6 +40,7 @@ namespace MySimlpePlatformerEngineTests
 			sf::Vector2f result4 = sf::Vector2f(0.0f, 4.0f);
 			sf::Vector2f result5 = sf::Vector2f(6.0f, 2.0f);
 			sf::Vector2f result6 = sf::Vector2f(3.0f, 4.0f);
+			sf::Vector2f result7 = sf::Vector2f(0.0f, 2.01010108f);
 			sf::Vector2f result = sf::Vector2f();
 			bool success = false;
 			success = utilites::GetRayAndViewBorderIntersectionPoint(&startPoint, &endPoint1, &rect, &result);
@@ -68,7 +69,9 @@ namespace MySimlpePlatformerEngineTests
 			Assert::AreEqual(result6.x, result.x);
 			Assert::AreEqual(result6.y, result.y);
 			success = utilites::GetRayAndViewBorderIntersectionPoint(&startPoint2, &endPoint6, &rect, &result);
-			Assert::IsFalse(success);
+			Assert::IsTrue(success);
+			Assert::AreEqual(result7.x, result.x);
+			Assert::AreEqual(result7.y, result.y);
 			success = utilites::GetRayAndViewBorderIntersectionPoint(&startPoint, &startPoint, &rect, &result);
 			Assert::IsFalse(success);
 			//Assert::AreEqual(1, 1);
