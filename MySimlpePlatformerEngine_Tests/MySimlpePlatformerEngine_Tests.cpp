@@ -321,11 +321,13 @@ namespace MySimlpePlatformerEngineTests
 		{
 			sf::FloatRect rect = sf::FloatRect(0.0f, 0.0f, 6.0f, 4.0f);
 			sf::Vector2f Start = sf::Vector2f(0.5f, -1.0f);
+			sf::Vector2f Start2 = sf::Vector2f(-1.0f, -1.0f);
 			sf::Vector2f A = sf::Vector2f(-1.0f, 0.5f);
 			sf::Vector2f B = sf::Vector2f(-0.5f, 1.0f);
 			sf::Vector2f C = sf::Vector2f(7.5f, -1.0f);
 			sf::Vector2f D = sf::Vector2f(6.0f, 2.0f);
 			sf::Vector2f E = sf::Vector2f(1.5f, 5.0f);
+			sf::Vector2f F = sf::Vector2f(1.0f, 1.0f);
 			
 			sf::Vector2f result = sf::Vector2f();
 			bool blocking = false;
@@ -357,6 +359,12 @@ namespace MySimlpePlatformerEngineTests
 
 			hasHit = utilites::GetRayAndRectCollisionPoint(&Start, &Start, &rect, &result, &blocking);
 			Assert::IsFalse(hasHit);
+
+			hasHit = utilites::GetRayAndRectCollisionPoint(&Start2, &F, &rect, &result, &blocking);
+			Assert::IsTrue(hasHit);
+			Assert::IsTrue(blocking);
+			Assert::AreEqual(0.0f, result.x);
+			Assert::AreEqual(0.0f, result.y);
 		}
 
 		TEST_METHOD(VectorsAreEqual)
@@ -461,6 +469,8 @@ namespace MySimlpePlatformerEngineTests
 			utilites::GetObjectsInCell(1, 0, grid.get(), ObjectTypeFlags::VisibilityBlocking, set.get());
 			Assert::IsTrue(set->find(gameObj1.get()) != set->end());
 			Assert::IsTrue(set->find(gameObj2.get()) == set->end());
+
+			set->clear();
 
 			utilites::GetObjectsInCell(1, 3, grid.get(), ObjectTypeFlags::VisibilityBlocking, set.get());
 			Assert::IsTrue(set->find(gameObj1.get()) == set->end());

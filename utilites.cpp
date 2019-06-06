@@ -371,12 +371,12 @@ bool utilites::GetRayAndRectCollisionPoint(const sf::Vector2f* const A, const sf
 					if (GetSegmentsIntersection(A, B, &rectBottomLeftPoint, &rectTopLeftPoint, result))
 					{
 						booleResult = true;
-						*blocking = !VectorsAreEqual(&rectBottomLeftPoint, result) && !VectorsAreEqual(&rectTopLeftPoint, result);
+						*blocking = !VectorsAreEqual(&rectTopLeftPoint, result);
 					}
 					else
 					{
 						booleResult = GetSegmentsIntersection(A, B, &rectBottomLeftPoint, &rectBottomRightPoint, result);
-						*blocking = !VectorsAreEqual(&rectBottomLeftPoint, result) && !VectorsAreEqual(&rectBottomRightPoint, result);
+						*blocking = !VectorsAreEqual(&rectBottomRightPoint, result);
 					}
 					break;
 				}
@@ -386,12 +386,12 @@ bool utilites::GetRayAndRectCollisionPoint(const sf::Vector2f* const A, const sf
 					if (GetSegmentsIntersection(A, B, &rectBottomLeftPoint, &rectTopLeftPoint, result))
 					{
 						booleResult = true;
-						*blocking = !VectorsAreEqual(&rectBottomLeftPoint, result) && !VectorsAreEqual(&rectTopLeftPoint, result);
+						*blocking = !VectorsAreEqual(&rectBottomLeftPoint, result);
 					}
 					else
 					{
 						booleResult = GetSegmentsIntersection(A, B, &rectTopRightPoint, &rectTopLeftPoint, result);
-						*blocking = !VectorsAreEqual(&rectTopRightPoint, result) && !VectorsAreEqual(&rectTopLeftPoint, result);
+						*blocking = !VectorsAreEqual(&rectTopRightPoint, result);
 					}
 					break;
 				}
@@ -401,12 +401,12 @@ bool utilites::GetRayAndRectCollisionPoint(const sf::Vector2f* const A, const sf
 					if (GetSegmentsIntersection(A, B, &rectBottomRightPoint, &rectTopRightPoint, result))
 					{
 						booleResult = true;
-						*blocking = !VectorsAreEqual(&rectBottomRightPoint, result) && !VectorsAreEqual(&rectTopRightPoint, result);
+						*blocking = !VectorsAreEqual(&rectTopRightPoint, result);
 					}
 					else
 					{
 						booleResult = GetSegmentsIntersection(A, B, &rectBottomLeftPoint, &rectBottomRightPoint, result);
-						*blocking = !VectorsAreEqual(&rectBottomLeftPoint, result) && !VectorsAreEqual(&rectBottomRightPoint, result);
+						*blocking = !VectorsAreEqual(&rectBottomLeftPoint, result);
 					}
 					break;
 				}
@@ -416,12 +416,12 @@ bool utilites::GetRayAndRectCollisionPoint(const sf::Vector2f* const A, const sf
 					if (GetSegmentsIntersection(A, B, &rectBottomRightPoint, &rectTopRightPoint, result))
 					{
 						booleResult = true;
-						*blocking = !VectorsAreEqual(&rectBottomRightPoint, result) && !VectorsAreEqual(&rectTopRightPoint, result);
+						*blocking = !VectorsAreEqual(&rectBottomRightPoint, result);
 					}
 					else
 					{
 						booleResult = GetSegmentsIntersection(A, B, &rectTopRightPoint, &rectTopLeftPoint, result);
-						*blocking = !VectorsAreEqual(&rectTopRightPoint, result) && !VectorsAreEqual(&rectTopLeftPoint, result);
+						*blocking = !VectorsAreEqual(&rectTopLeftPoint, result);
 					}
 					break;
 				}
@@ -495,7 +495,7 @@ void utilites::GetObjectsInRect(const sf::FloatRect* const rect, const MagicGrid
 
 void utilites::GetObjectsInCell(const size_t x, const size_t y, const MagicGrid* const grid, ObjectTypeFlags testFlag, MagicGameObjectsConcurrensUnorderedSet* const objectsSet)
 {
-	objectsSet->clear();
+	//objectsSet->clear();
 	FilterMagicGameObjectsSet(grid->GetCellDynamicObjectsSet(x, y), testFlag, objectsSet);
 	FilterMagicGameObjectsSet(grid->GetCellStaticObjectsSet(x, y), testFlag, objectsSet);
 }
