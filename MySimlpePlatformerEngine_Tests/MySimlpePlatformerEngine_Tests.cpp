@@ -409,7 +409,7 @@ namespace MySimlpePlatformerEngineTests
 
 		TEST_METHOD(GetPointsInRectForRaycast)
 		{
-			unique_ptr<MagicGrid> grid = make_unique<MagicGrid>(5, 5, 100.0f);
+			/*unique_ptr<MagicGrid> grid = make_unique<MagicGrid>(5, 5, 100.0f);
 			unique_ptr<MagicGameObject> gameObj1 = make_unique<MagicGameObject>(sf::FloatRect(101.0f, 0.0f, 200.0f, 200.0f));
 			unique_ptr<MagicGameObject> gameObj2 = make_unique<MagicGameObject>(sf::FloatRect(101.0f, 300.0f, 200.0f, 200.0f));
 			grid->AddStaticObject(gameObj1.get());
@@ -428,7 +428,23 @@ namespace MySimlpePlatformerEngineTests
 			Assert::AreEqual(0, (int)set->size());
 
 			utilites::GetPointsInRectForRaycast(&rayStart, &checkRect3, grid.get(), ObjectTypeFlags::VisibilityBlocking, set.get());
-			Assert::AreEqual(5, (int)set->size());
+			Assert::AreEqual(5, (int)set->size());*/
+
+			sf::FloatRect view = sf::FloatRect(0.0f, 0.0f, 6.0f, 4.0f);
+			unique_ptr<MagicGrid> grid = make_unique<MagicGrid>(6, 4, 1.0f);
+			unique_ptr<MagicGameObject> gameObj1 = make_unique<MagicGameObject>(sf::FloatRect(0.5f, 1.5f, 2.0f, 2.0f));
+			unique_ptr<MagicGameObject> gameObj2 = make_unique<MagicGameObject>(sf::FloatRect(3.5f, 1.0f, 1.0f, 1.0f));
+			unique_ptr<MagicGameObject> gameObj3 = make_unique<MagicGameObject>(sf::FloatRect(4.5f, 2.5f, 1.0f, 1.0f));
+			sf::Vector2f startPoint = sf::Vector2f(7.0f, 2.0f);
+
+			grid->AddStaticObject(gameObj1.get());
+			grid->AddStaticObject(gameObj2.get());
+			grid->AddDynamicObject(gameObj3.get());
+
+			unique_ptr<utilites::MagicPointsConcurrensUnorderedSet> set = make_unique<utilites::MagicPointsConcurrensUnorderedSet>();
+
+			utilites::GetPointsInRectForRaycast(&startPoint, &view, grid.get(), ObjectTypeFlags::VisibilityBlocking, set.get());
+			Assert::AreEqual(7, (int)set->size());
 		}
 
 		TEST_METHOD(GetPointsInRectForRaycast_HandleGameObject)
@@ -503,8 +519,23 @@ namespace MySimlpePlatformerEngineTests
 
 		TEST_METHOD(GetPointsForLightingPoligon)
 		{
+			sf::FloatRect view = sf::FloatRect(0.0f, 0.0f, 6.0f, 4.0f);
+			unique_ptr<MagicGrid> grid = make_unique<MagicGrid>(6, 4, 1.0f);
+			unique_ptr<MagicGameObject> gameObj1 = make_unique<MagicGameObject>(sf::FloatRect(0.5f, 1.5f, 2.0f, 2.0f));
+			unique_ptr<MagicGameObject> gameObj2 = make_unique<MagicGameObject>(sf::FloatRect(3.5f, 1.0f, 1.0f, 1.0f));
+			unique_ptr<MagicGameObject> gameObj3 = make_unique<MagicGameObject>(sf::FloatRect(4.5f, 2.5f, 1.0f, 1.0f));
+			sf::Vector2f startPoint = sf::Vector2f(7.0f, 2.0f);
 
-			Assert::IsFalse(true);
+			grid->AddStaticObject(gameObj1.get());
+			grid->AddStaticObject(gameObj2.get());
+			grid->AddDynamicObject(gameObj3.get());
+
+			unique_ptr<concurrent_vector<utilites::LightingCollisionPoint>> set = make_unique<concurrent_vector<utilites::LightingCollisionPoint>>();
+
+			utilites::GetPointsForLightingPoligon(&view, &startPoint, grid.get(), set.get());
+
+
+			Assert::AreEqual(11, (int)set->size());
 		}
 	};
 

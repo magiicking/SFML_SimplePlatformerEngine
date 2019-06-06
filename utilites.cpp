@@ -636,10 +636,22 @@ void utilites::GetPointsForLightingPoligon(const sf::FloatRect* const view, cons
 	pointsSet->clear();
 
 	GetPointsInRectForRaycast(rayStart, view, grid, ObjectTypeFlags::VisibilityBlocking, set.get());
+
+	unique_ptr<sf::Vector2f> viewCorner1 = make_unique<sf::Vector2f>(view->left, view->top);
+	unique_ptr<sf::Vector2f> viewCorner2 = make_unique<sf::Vector2f>(view->left + view->width, view->top);
+	unique_ptr<sf::Vector2f> viewCorner3 = make_unique<sf::Vector2f>(view->left, view->top + view->height);
+	unique_ptr<sf::Vector2f> viewCorner4 = make_unique<sf::Vector2f>(view->left + view->width, view->top + view->height);
+
+	set->insert(viewCorner1.get());
+	set->insert(viewCorner2.get());
+	set->insert(viewCorner3.get());
+	set->insert(viewCorner4.get());
 	parallel_for_each(set->begin(), set->end(), [pointsSet, rayStart, view, grid](sf::Vector2f* checkPoint)
+	//for_each(set->begin(), set->end(), [pointsSet, rayStart, view, grid](sf::Vector2f* checkPoint)
 		{
 			sf::Vector2f borderPoint = sf::Vector2f();
-			bool blocked = false;
+			
+			bool weHaveWinner = false;
 			if (GetRayAndViewBorderIntersectionPoint(rayStart, checkPoint, view, &borderPoint))
 			{
 				vector<RasterizedCell> cells = RasterizeSegment(rayStart, &borderPoint, &(grid->GetOriginPoint()), grid->GetCellSize());
@@ -647,14 +659,15 @@ void utilites::GetPointsForLightingPoligon(const sf::FloatRect* const view, cons
 				{
 					unique_ptr<MagicGameObjectsConcurrensUnorderedSet> cellObjects = make_unique<MagicGameObjectsConcurrensUnorderedSet>();
 					MagicGameObjectsConcurrensUnorderedSet* cellObjectsPointer = cellObjects.get();
-					for_each(cells.begin(), cells.end(), [&blocked, cellObjectsPointer, grid, pointsSet, rayStart, &borderPoint](RasterizedCell cell)
+					for_each(cells.begin(), cells.end(), [&weHaveWinner, cellObjectsPointer, grid, pointsSet, rayStart, &borderPoint](RasterizedCell cell)
 						{
-							if (!blocked)
+							if (!weHaveWinner)
 							{
 								GetObjectsInCell(cell.x, cell.y, grid, ObjectTypeFlags::VisibilityBlocking, cellObjectsPointer);
 								vector<sf::Vector2f> collisionPoints;
-								for_each(cellObjectsPointer->begin(), cellObjectsPointer->end(), [&blocked, rayStart, &borderPoint, &collisionPoints](MagicGameObject* obj)
+								for_each(cellObjectsPointer->begin(), cellObjectsPointer->end(), [rayStart, &borderPoint, &collisionPoints](MagicGameObject* obj)
 									{
+										bool blocked = false;
 										sf::Vector2f collisionPoint;
 										if (GetRayAndRectCollisionPoint(rayStart, &borderPoint, &(obj->GetRect()), &collisionPoint, &blocked))
 										{
@@ -667,7 +680,7 @@ void utilites::GetPointsForLightingPoligon(const sf::FloatRect* const view, cons
 								
 								if(collisionPoints.size() > 1)
 								{
-									sort(collisionPoints.begin(), collisionPoints.end(), [rayStart](const sf::Vector2f &A, const sf::Vector2f &B)
+									std::sort(collisionPoints.begin(), collisionPoints.end(), [rayStart](const sf::Vector2f &A, const sf::Vector2f &B)
 										{
 											return VectorLenght(&(A - *rayStart)) < VectorLenght(&(B - *rayStart));
 										});
@@ -675,19 +688,19 @@ void utilites::GetPointsForLightingPoligon(const sf::FloatRect* const view, cons
 								if (collisionPoints.size() > 0)
 								{
 									pointsSet->push_back(LightingCollisionPoint(collisionPoints[0], *rayStart));
-									blocked = true;
+									weHaveWinner = true;
 								}
 							}
 						});
 				}
 			}
-			if (!blocked)
+			if (!weHaveWinner)
 			{
 				pointsSet->push_back(LightingCollisionPoint(borderPoint, *rayStart));
 			}
 		});
 
-	sort(pointsSet->begin(), pointsSet->end(), [](const LightingCollisionPoint& A, const LightingCollisionPoint& B) 
+	std::sort(pointsSet->begin(), pointsSet->end(), [](const LightingCollisionPoint& A, const LightingCollisionPoint& B)
 		{
 			return A.angle < B.angle;
 		});
