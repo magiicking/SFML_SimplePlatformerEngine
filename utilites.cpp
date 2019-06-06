@@ -495,6 +495,7 @@ void utilites::GetObjectsInRect(const sf::FloatRect* const rect, const MagicGrid
 
 void utilites::GetObjectsInCell(const size_t x, const size_t y, const MagicGrid* const grid, ObjectTypeFlags testFlag, MagicGameObjectsConcurrensUnorderedSet* const objectsSet)
 {
+	objectsSet->clear();
 	FilterMagicGameObjectsSet(grid->GetCellDynamicObjectsSet(x, y), testFlag, objectsSet);
 	FilterMagicGameObjectsSet(grid->GetCellStaticObjectsSet(x, y), testFlag, objectsSet);
 }

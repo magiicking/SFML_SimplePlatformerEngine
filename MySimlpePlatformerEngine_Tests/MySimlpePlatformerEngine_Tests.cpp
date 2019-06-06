@@ -450,14 +450,45 @@ namespace MySimlpePlatformerEngineTests
 	
 		TEST_METHOD(GetObjectsInCell)
 		{
+			unique_ptr<MagicGrid> grid = make_unique<MagicGrid>(5, 5, 100.0f);
+			unique_ptr<MagicGameObject> gameObj1 = make_unique<MagicGameObject>(sf::FloatRect(101.0f, 0.0f, 200.0f, 200.0f));
+			unique_ptr<MagicGameObject> gameObj2 = make_unique<MagicGameObject>(sf::FloatRect(101.0f, 300.0f, 200.0f, 200.0f));
+			grid->AddStaticObject(gameObj1.get());
+			grid->AddStaticObject(gameObj2.get());
 
-			Assert::IsFalse(true);
+			unique_ptr<utilites::MagicGameObjectsConcurrensUnorderedSet> set = make_unique<utilites::MagicGameObjectsConcurrensUnorderedSet>();
+
+			utilites::GetObjectsInCell(1, 0, grid.get(), ObjectTypeFlags::VisibilityBlocking, set.get());
+			Assert::IsTrue(set->find(gameObj1.get()) != set->end());
+			Assert::IsTrue(set->find(gameObj2.get()) == set->end());
+
+			utilites::GetObjectsInCell(1, 3, grid.get(), ObjectTypeFlags::VisibilityBlocking, set.get());
+			Assert::IsTrue(set->find(gameObj1.get()) == set->end());
+			Assert::IsTrue(set->find(gameObj2.get()) != set->end());
+
+			//Assert::IsFalse(true);
 		}
 
 		TEST_METHOD(FilterMagicGameObjectsSet)
 		{
+			unique_ptr<MagicGrid> grid = make_unique<MagicGrid>(5, 5, 100.0f);
+			unique_ptr<MagicGameObject> gameObj1 = make_unique<MagicGameObject>(sf::FloatRect(101.0f, 0.0f, 200.0f, 200.0f));
+			unique_ptr<MagicGameObject> gameObj2 = make_unique<MagicGameObject>(sf::FloatRect(101.0f, 300.0f, 200.0f, 200.0f));
+			grid->AddStaticObject(gameObj1.get());
+			grid->AddStaticObject(gameObj2.get());
 
-			Assert::IsFalse(true);
+			unique_ptr<utilites::MagicGameObjectsConcurrensUnorderedSet> set2 = make_unique<utilites::MagicGameObjectsConcurrensUnorderedSet>();
+
+			utilites::MagicGameObjectsConcurrensUnorderedSet* set = grid->GetCellStaticObjectsSet(1, 0);
+			Assert::AreEqual(1, (int)set->size());
+
+			utilites::FilterMagicGameObjectsSet(set, ObjectTypeFlags::VisibilityBlocking, set2.get());
+			Assert::AreEqual(1, (int)set2->size());
+
+			set2->clear();
+
+			utilites::FilterMagicGameObjectsSet(set, ObjectTypeFlags::Trigger, set2.get());
+			Assert::AreEqual(0, (int)set2->size());
 		}
 
 		TEST_METHOD(GetPointsForLightingPoligon)
