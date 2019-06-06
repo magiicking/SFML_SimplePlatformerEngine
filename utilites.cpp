@@ -496,6 +496,9 @@ void utilites::GetObjectsInRect(const sf::FloatRect* const rect, const MagicGrid
 void utilites::GetObjectsInCell(const size_t x, const size_t y, const MagicGrid* const grid, ObjectTypeFlags testFlag, MagicGameObjectsConcurrensUnorderedSet* const objectsSet)
 {
 	//objectsSet->clear();
+	//Итак, я долбоеб. Сначала запустил в куче потоков получение объектов из отдельных ячеек и передал во все ячейки один сет,
+	//а потом пытался из каждой ячейки этот сет очистить. И ну кто бы мог подумать, что это НЕ потокобезопасно.
+	//Зачем я вообще решил такое сделать?
 	FilterMagicGameObjectsSet(grid->GetCellDynamicObjectsSet(x, y), testFlag, objectsSet);
 	FilterMagicGameObjectsSet(grid->GetCellStaticObjectsSet(x, y), testFlag, objectsSet);
 }
