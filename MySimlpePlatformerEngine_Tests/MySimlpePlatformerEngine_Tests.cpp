@@ -447,6 +447,24 @@ namespace MySimlpePlatformerEngineTests
 			Assert::IsFalse(rect1.intersects(rect4));
 			Assert::IsFalse(utilites::RectanglesOverlaping(&rect1, &rect4));
 		}
+	
+		TEST_METHOD(GetObjectsInCell)
+		{
+
+			Assert::IsFalse(true);
+		}
+
+		TEST_METHOD(FilterMagicGameObjectsSet)
+		{
+
+			Assert::IsFalse(true);
+		}
+
+		TEST_METHOD(GetPointsForLightingPoligon)
+		{
+
+			Assert::IsFalse(true);
+		}
 	};
 
 	TEST_CLASS(grid_test)

@@ -106,6 +106,5 @@ public:
 
 	sf::Vector2f GetOriginPoint() const;
 
-	void GetCellObjectsSet(const size_t x, const size_t y, ObjectTypeFlags flag, utilites::MagicGameObjectsConcurrensUnorderedSet* objects)  const;
 };
 

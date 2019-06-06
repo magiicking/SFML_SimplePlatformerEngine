@@ -629,25 +629,63 @@ bool utilites::RectanglesOverlaping(const sf::FloatRect* const rect1, const sf::
 void utilites::GetPointsForLightingPoligon(const sf::FloatRect* const view, const sf::Vector2f* const rayStart, const MagicGrid* const grid, concurrent_vector<LightingCollisionPoint>* const pointsSet)
 {
 	unique_ptr<MagicPointsConcurrensUnorderedSet> set = make_unique<MagicPointsConcurrensUnorderedSet>();
+	pointsSet->clear();
 
 	GetPointsInRectForRaycast(rayStart, view, grid, ObjectTypeFlags::VisibilityBlocking, set.get());
 	parallel_for_each(set->begin(), set->end(), [pointsSet, rayStart, view, grid](sf::Vector2f* checkPoint)
 		{
-			unique_ptr<sf::Vector2f> borderPoint = make_unique<sf::Vector2f>();
-			unique_ptr <bool> blocked = make_unique<bool>();
-			*blocked = false;
-			if (GetRayAndViewBorderIntersectionPoint(rayStart, checkPoint, view, borderPoint.get()))
+			sf::Vector2f borderPoint = sf::Vector2f();
+			bool blocked = false;
+			if (GetRayAndViewBorderIntersectionPoint(rayStart, checkPoint, view, &borderPoint))
 			{
-				vector<utilites::RasterizedCell> cells = RasterizeSegment(rayStart, borderPoint.get(), &(grid->GetOriginPoint()), grid->GetCellSize());
+				vector<RasterizedCell> cells = RasterizeSegment(rayStart, &borderPoint, &(grid->GetOriginPoint()), grid->GetCellSize());
 				if (cells.size() > 0)
 				{
-
+					unique_ptr<MagicGameObjectsConcurrensUnorderedSet> cellObjects = make_unique<MagicGameObjectsConcurrensUnorderedSet>();
+					MagicGameObjectsConcurrensUnorderedSet* cellObjectsPointer = cellObjects.get();
+					for_each(cells.begin(), cells.end(), [&blocked, cellObjectsPointer, grid, pointsSet, rayStart, &borderPoint](RasterizedCell cell)
+						{
+							if (!blocked)
+							{
+								GetObjectsInCell(cell.x, cell.y, grid, ObjectTypeFlags::VisibilityBlocking, cellObjectsPointer);
+								vector<sf::Vector2f> collisionPoints;
+								for_each(cellObjectsPointer->begin(), cellObjectsPointer->end(), [&blocked, rayStart, &borderPoint, &collisionPoints](MagicGameObject* obj)
+									{
+										sf::Vector2f collisionPoint;
+										if (GetRayAndRectCollisionPoint(rayStart, &borderPoint, &(obj->GetRect()), &collisionPoint, &blocked))
+										{
+											if (blocked)
+											{
+												collisionPoints.push_back(collisionPoint);
+											}
+										}
+									});
+								
+								if(collisionPoints.size() > 1)
+								{
+									sort(collisionPoints.begin(), collisionPoints.end(), [rayStart](const sf::Vector2f &A, const sf::Vector2f &B)
+										{
+											return VectorLenght(&(A - *rayStart)) < VectorLenght(&(B - *rayStart));
+										});
+								}
+								if (collisionPoints.size() > 0)
+								{
+									pointsSet->push_back(LightingCollisionPoint(collisionPoints[0], *rayStart));
+									blocked = true;
+								}
+							}
+						});
 				}
 			}
-			if (!*blocked)
+			if (!blocked)
 			{
-				//pointsSet->push_back(LightingCollisionPoint(*borderPoint, *rayStart));
+				pointsSet->push_back(LightingCollisionPoint(borderPoint, *rayStart));
 			}
+		});
+
+	sort(pointsSet->begin(), pointsSet->end(), [](const LightingCollisionPoint& A, const LightingCollisionPoint& B) 
+		{
+			return A.angle < B.angle;
 		});
 
 }

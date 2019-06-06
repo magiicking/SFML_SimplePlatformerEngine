@@ -94,12 +94,3 @@ sf::Vector2f MagicGrid::GetOriginPoint() const
 {
 	return sf::Vector2f(0.0f,0.0f);
 }
-
-void MagicGrid::GetCellObjectsSet(const size_t x, const size_t y, ObjectTypeFlags flag, utilites::MagicGameObjectsConcurrensUnorderedSet* objects) const
-{
-	if (x < 0 || x >= width || y < 0 || y >= height)
-	{
-		return;
-	}
-	utilites::MagicGameObjectsConcurrensUnorderedSet* set = grid[x]->GetCellStaticObjectsSet(y);
-}
