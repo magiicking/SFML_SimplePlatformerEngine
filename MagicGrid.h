@@ -18,7 +18,7 @@ using namespace concurrency;
 /// 
 ///
 ////////////////////////////////////////////////////////////
-class MagicGrid
+class MagicGrid : public sf::Drawable
 {
 private:
 	////////////////////////////////////////////////////////////
@@ -43,6 +43,10 @@ private:
 	size_t width;
 
 	size_t height;
+
+	sf::VertexArray m_vertices;
+
+	void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 
 public:
 	////////////////////////////////////////////////////////////

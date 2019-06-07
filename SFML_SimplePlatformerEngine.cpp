@@ -12,10 +12,13 @@ int main()
 
 	//unique_ptr<MagicGrid> grid = make_unique<MagicGrid>(500, 250, 30.0f);
 
-	sf::RenderWindow window(sf::VideoMode(200, 200), "SFML works!");
+	sf::RenderWindow window(sf::VideoMode(1000, 1000), "SFML works!");
 	sf::CircleShape shape(100.f);
 	shape.setFillColor(sf::Color::Green);
 	window.setFramerateLimit(60);
+	//window.setSize(sf::Vector2u(window.getSize().x, (uint32_t)(window.getSize().x * 9 / 16)));
+
+	unique_ptr<MagicGrid> grid = make_unique<MagicGrid>(10, 10, 10.0f);
 
 	while (window.isOpen())
 	{
@@ -31,7 +34,7 @@ int main()
 					}
 				case sf::Event::Resized:
 					{
-						
+						//window.setSize(sf::Vector2u(event.size.width, (uint32_t)(event.size.width * 9 / 16)));
 						break;
 					}
 				default:
@@ -44,7 +47,7 @@ int main()
 		}
 
 		window.clear();
-		window.draw(shape);
+		window.draw(*grid.get());
 		window.display();
 	}
 }

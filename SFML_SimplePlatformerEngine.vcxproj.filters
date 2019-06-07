@@ -66,6 +66,9 @@
     <ClCompile Include="MagicAnimatedObject.cpp">
       <Filter>Исходные файлы\Игровые объекты</Filter>
     </ClCompile>
+    <ClCompile Include="MagicGameLevelManager.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="utilites.h">
@@ -94,6 +97,9 @@
     </ClInclude>
     <ClInclude Include="MagicAnimatedObject.h">
       <Filter>Файлы заголовков\Игровые объекты</Filter>
+    </ClInclude>
+    <ClInclude Include="MagicGameLevelManager.h">
+      <Filter>Файлы заголовков</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -5,14 +5,27 @@
 
 using namespace concurrency;
 
+void MagicGrid::draw(sf::RenderTarget& target, sf::RenderStates states) const
+{
+	target.draw(m_vertices, states);
+}
+
 MagicGrid::MagicGrid(const size_t width, const size_t height, const float _cellSize)
 {
+	m_vertices.setPrimitiveType(sf::Lines);
 	cellSize = _cellSize;
 	this->width = width;
 	this->height = height;
 	for (size_t i = 0; i < width; i++)
 	{
 		grid.push_back(make_unique<MagicGridColumn>(height));
+		for (size_t j = 0; j < height; j++)
+		{
+			m_vertices.append(sf::Vertex(sf::Vector2f(i * cellSize, j * cellSize), sf::Color::Green));
+			m_vertices.append(sf::Vertex(sf::Vector2f((i + 1) * cellSize, j * cellSize), sf::Color::Green));
+			m_vertices.append(sf::Vertex(sf::Vector2f(i * cellSize, j * cellSize), sf::Color::Green));
+			m_vertices.append(sf::Vertex(sf::Vector2f(i * cellSize, (j + 1) * cellSize), sf::Color::Green));
+		}
 	}
 }
 
