@@ -15,6 +15,7 @@
 
 # Build results
 [Dd]ebug/
+[Dd]ebug_NotParallel/
 [Dd]ebugPublic/
 [Rr]elease/
 [Rr]eleases/
