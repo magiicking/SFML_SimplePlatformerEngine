@@ -110,13 +110,15 @@ bool utilites::GetLinesIntersection(const sf::Vector3f* const line1, const sf::V
 
 bool utilites::GetLinesIntersection(const sf::Vector2f* const A, const sf::Vector2f* const B, const sf::Vector2f* const C, const sf::Vector2f* const D, sf::Vector2f* const result)
 {
-	float delimeter = (B->x - A->x) * (D->y - C->y) - (D->x - C->x) * (B->y - A->y);
+	double delimeter = ((double)B->x - (double)A->x) * ((double)D->y - (double)C->y) - ((double)D->x - (double)C->x) * ((double)B->y - (double)A->y);
 	if (!NearZero(delimeter))
 	{
-		float thing1 = (B->x * A->y - A->x * B->y);
-		float thing2 = (D->x * C->y - C->x * D->y);
-		result->x = (thing1 * (D->x - C->x) - thing2 * (B->x - A->x)) / delimeter;
-		result->y = (thing1 * (D->y - C->y) - thing2 * (B->y - A->y)) / delimeter;
+		double thing1 = ((double)B->x * (double)A->y - (double)A->x * (double)B->y);
+		double thing2 = ((double)D->x * (double)C->y - (double)C->x * (double)D->y);
+		result->x = (float)((thing1 * ((double)D->x - (double)C->x) - thing2 * (double)((double)B->x - (double)A->x)) / delimeter);
+		result->y = (float)((thing1 * (double)((double)D->y - (double)C->y) - thing2 * (double)((double)B->y - (double)A->y)) / delimeter);
+		result->x = roundf(result->x * 1000.0f) / 1000.0f;
+		result->y = roundf(result->y * 1000.0f) / 1000.0f;
 		return true;
 	}
 	return false;
@@ -124,8 +126,8 @@ bool utilites::GetLinesIntersection(const sf::Vector2f* const A, const sf::Vecto
 
 bool utilites::NearZero(float value)
 {
-	//return fabsf(value) <= numeric_limits<float>::epsilon();
-	return fabsf(value) <= 0.001f;
+	return fabsf(value) <= numeric_limits<float>::epsilon();
+	//return fabsf(value) <= 0.001f;
 }
 
 bool utilites::IsPointOnSegment(const sf::Vector2f* const segmentStart, const sf::Vector2f* const segmentEnd, const sf::Vector2f* const point)
