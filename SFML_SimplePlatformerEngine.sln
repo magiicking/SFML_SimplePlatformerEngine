@@ -9,12 +9,18 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MySimlpePlatformerEngine_Te
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug_NotParallel|x64 = Debug_NotParallel|x64
+		Debug_NotParallel|x86 = Debug_NotParallel|x86
 		Debug|x64 = Debug|x64
 		Debug|x86 = Debug|x86
 		Release|x64 = Release|x64
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{BA009F3A-2FFC-4C41-B4CF-99D6D08B43F2}.Debug_NotParallel|x64.ActiveCfg = Debug_NotParallel|x64
+		{BA009F3A-2FFC-4C41-B4CF-99D6D08B43F2}.Debug_NotParallel|x64.Build.0 = Debug_NotParallel|x64
+		{BA009F3A-2FFC-4C41-B4CF-99D6D08B43F2}.Debug_NotParallel|x86.ActiveCfg = Debug_NotParallel|Win32
+		{BA009F3A-2FFC-4C41-B4CF-99D6D08B43F2}.Debug_NotParallel|x86.Build.0 = Debug_NotParallel|Win32
 		{BA009F3A-2FFC-4C41-B4CF-99D6D08B43F2}.Debug|x64.ActiveCfg = Debug|x64
 		{BA009F3A-2FFC-4C41-B4CF-99D6D08B43F2}.Debug|x64.Build.0 = Debug|x64
 		{BA009F3A-2FFC-4C41-B4CF-99D6D08B43F2}.Debug|x86.ActiveCfg = Debug|Win32
@@ -23,6 +29,10 @@ Global
 		{BA009F3A-2FFC-4C41-B4CF-99D6D08B43F2}.Release|x64.Build.0 = Release|x64
 		{BA009F3A-2FFC-4C41-B4CF-99D6D08B43F2}.Release|x86.ActiveCfg = Release|Win32
 		{BA009F3A-2FFC-4C41-B4CF-99D6D08B43F2}.Release|x86.Build.0 = Release|Win32
+		{11C73CE4-8BAF-4803-A44D-2976F6065E6F}.Debug_NotParallel|x64.ActiveCfg = Debug_NotParallel|x64
+		{11C73CE4-8BAF-4803-A44D-2976F6065E6F}.Debug_NotParallel|x64.Build.0 = Debug_NotParallel|x64
+		{11C73CE4-8BAF-4803-A44D-2976F6065E6F}.Debug_NotParallel|x86.ActiveCfg = Debug_NotParallel|Win32
+		{11C73CE4-8BAF-4803-A44D-2976F6065E6F}.Debug_NotParallel|x86.Build.0 = Debug_NotParallel|Win32
 		{11C73CE4-8BAF-4803-A44D-2976F6065E6F}.Debug|x64.ActiveCfg = Debug|x64
 		{11C73CE4-8BAF-4803-A44D-2976F6065E6F}.Debug|x64.Build.0 = Debug|x64
 		{11C73CE4-8BAF-4803-A44D-2976F6065E6F}.Debug|x86.ActiveCfg = Debug|Win32

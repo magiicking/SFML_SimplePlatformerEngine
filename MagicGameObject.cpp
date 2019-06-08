@@ -23,6 +23,11 @@ MagicGameObject::MagicGameObject(const sf::FloatRect _objectRect)
 	bottomLeft = make_unique<sf::Vector2f>(objectRect.left, objectRect.top);
 	bottomRight = make_unique<sf::Vector2f>(objectRect.left + objectRect.width, objectRect.top);
 	flags = (uint16_t)ObjectTypeFlags::VisibilityBlocking;
+	m_vertices->append(sf::Vertex(*topLeft, sf::Color::Blue));
+	m_vertices->append(sf::Vertex(*topRight, sf::Color::Blue));
+	m_vertices->append(sf::Vertex(*bottomRight, sf::Color::Blue));
+	m_vertices->append(sf::Vertex(*bottomLeft, sf::Color::Blue));
+	m_vertices->setPrimitiveType(sf::Quads);
 }
 
 sf::FloatRect MagicGameObject::GetRect() const
@@ -47,6 +52,10 @@ void MagicGameObject::SetPosition(sf::Vector2f newPosition)
 	bottomLeft->y += difference.y;
 	bottomRight->x += difference.x;
 	bottomRight->y += difference.y;
+	for (auto i = lightPoints.begin(); i != lightPoints.end(); i++)
+	{
+		(*i) += difference;
+	}
 }
 
 void MagicGameObject::Tick(float deltaTime)
@@ -98,4 +107,19 @@ sf::VertexArray* MagicGameObject::GetVertexArray() const
 sf::Texture* MagicGameObject::GetTexture() const
 {
 	return m_texture;
+}
+
+void MagicGameObject::SetFlag(ObjectTypeFlags flag)
+{
+	flags |= (uint16_t)flag;
+}
+
+void MagicGameObject::RemoveFlag(ObjectTypeFlags flag)
+{
+	flags |= ~(uint16_t)flag;
+}
+
+void MagicGameObject::AddLightPoint(sf::Vector2f point)
+{
+	lightPoints.push_back(point + *topLeft);
 }

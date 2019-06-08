@@ -34,7 +34,9 @@ enum class ObjectTypeFlags : uint16_t
 	/// физические силы к нему не применяются.
 	///
 	////////////////////////////////////////////////////////////
-	Trigger = 1 << 3
+	Trigger = 1 << 3,
+
+	Lighting = 1 << 4
 };
 
 ////////////////////////////////////////////////////////////
@@ -139,6 +141,7 @@ private:
 	void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 	//virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 	
+	vector<sf::Vector2f> lightPoints;
 
 public:
 
@@ -225,5 +228,9 @@ public:
 	sf::VertexArray* GetVertexArray() const;
 
 	sf::Texture* GetTexture() const;
+
+	void SetFlag(ObjectTypeFlags flag);
+	void RemoveFlag(ObjectTypeFlags flag);
+	void AddLightPoint(sf::Vector2f point);
 };
 

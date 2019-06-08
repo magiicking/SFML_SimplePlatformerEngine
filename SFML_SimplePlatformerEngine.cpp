@@ -2,6 +2,7 @@
 //
 #include "pch.h"
 #include "MagicGrid.h"
+#include "MagicGameLevelManager.h"
 
 
 int main()
@@ -12,16 +13,19 @@ int main()
 
 	//unique_ptr<MagicGrid> grid = make_unique<MagicGrid>(500, 250, 30.0f);
 
-	sf::RenderWindow window(sf::VideoMode(1000, 1000), "SFML works!");
+	sf::RenderWindow window(sf::VideoMode(200, 200), "SFML works!");
 	sf::CircleShape shape(100.f);
 	shape.setFillColor(sf::Color::Green);
 	window.setFramerateLimit(60);
 	//window.setSize(sf::Vector2u(window.getSize().x, (uint32_t)(window.getSize().x * 9 / 16)));
 
-	unique_ptr<MagicGrid> grid = make_unique<MagicGrid>(10, 10, 10.0f);
+	//unique_ptr<MagicGrid> grid = make_unique<MagicGrid>(10, 10, 10.0f);
+	unique_ptr<MagicGameLevelManager> manager = make_unique<MagicGameLevelManager>();
 
 	while (window.isOpen())
 	{
+		sf::View view = window.getView();
+		sf::FloatRect viewRect = sf::FloatRect(view.getCenter() - view.getSize() / 2.0f, view.getSize());
 		sf::Event event;
 		while (window.pollEvent(event))
 		{
@@ -37,6 +41,11 @@ int main()
 						//window.setSize(sf::Vector2u(event.size.width, (uint32_t)(event.size.width * 9 / 16)));
 						break;
 					}
+				case sf::Event::MouseButtonPressed:
+					{
+						manager->lamp = sf::Vector2f((float)event.mouseButton.x, (float)event.mouseButton.y);
+						break;
+					}
 				default:
 					{
 						break;
@@ -47,7 +56,9 @@ int main()
 		}
 
 		window.clear();
-		window.draw(*grid.get());
+		//window.draw(*grid.get());
+		manager->DrawGameObjects(&window, viewRect);
+		manager->DrawLighting(&window, viewRect);
 		window.display();
 	}
 }

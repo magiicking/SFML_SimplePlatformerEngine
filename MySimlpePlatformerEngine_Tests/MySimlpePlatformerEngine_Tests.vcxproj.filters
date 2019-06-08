@@ -57,9 +57,6 @@
     <ClCompile Include="..\pugixml.cpp">
       <Filter>Исходные файлы\pugixml</Filter>
     </ClCompile>
-    <ClCompile Include="..\SFML_SimplePlatformerEngine.cpp">
-      <Filter>Самый главный файл</Filter>
-    </ClCompile>
     <ClCompile Include="..\MagicAnimatedObject.cpp">
       <Filter>Исходные файлы\Игровые объекты</Filter>
     </ClCompile>
